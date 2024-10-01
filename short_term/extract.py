@@ -7,6 +7,15 @@ import requests as req
 BASE_URL = "https://data-eng-plants-api.herokuapp.com/plants/"
 
 
+def get_object_name() -> str:
+    """Gets the name for the object, based on the current time."""
+
+    current_time = datetime.now()
+    object_name = datetime.strftime(current_time,
+                                    "recording-%Y-%m-%d-%H-%M.json")
+    return object_name
+
+
 def get_plant_data(number: int = 50) -> list[dict]:
     """Makes the API calls and returns the raw json files."""
 
@@ -39,14 +48,20 @@ def get_recording_info(reading_data: dict) -> dict:
     }
 
 
-if __name__ == "__main__":
+def extract_recordings() -> str:
+    """Gets the recordings and turns them into json data.
+    The main function to be called from the pipeline."""
 
-    api_data = get_plant_data(10)
+    api_data = get_plant_data()
 
-    plant_data = [get_recording_info(element)
-                  for element in api_data]
+    plant_data = []
+    for element in api_data:
+        recording_info = get_recording_info(element)
+        if recording_info is not None:
+            plant_data.append(recording_info)
 
-    print(plant_data)
-
-    with open("recordings.json", "w") as f:
+    object_name = get_object_name()
+    with open(object_name, "w") as f:
         json.dump(plant_data, f, indent=6)
+
+    return object_name

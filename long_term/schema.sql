@@ -26,7 +26,7 @@ CREATE TABLE origin_location(
 CREATE TABLE plant(
     plant_id SMALLINT GENERATED ALWAYS AS IDENTITY,
     plant_name VARCHAR(255) NOT NULL,
-    plant_scientific_name VARCHAR(255) NOT NULL,
+    plant_scientific_name VARCHAR(255) NULL,
     origin_location_id SMALLINT NOT NULL,
     -- Image URL fields are nullable
     small_url TEXT NULL,

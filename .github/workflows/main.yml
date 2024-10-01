@@ -39,7 +39,7 @@ jobs:
     # Write Pytest overview results to a file
     - name: Record test results
       run: |
-        pytest
+        pytest --continue-on-collection-errors
       continue-on-error: false
 
     - name: Lint

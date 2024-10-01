@@ -1,7 +1,9 @@
 """Extracts all of the json files from the S3 bucket more than 24h old."""
 
+import os
 from os import environ as ENV
-from datetime import datetime, timedelta
+from datetime import datetime
+import json
 from dotenv import load_dotenv
 from boto3 import client
 
@@ -36,33 +38,30 @@ def filter_old_objects(bucket_objects: list[str],
             if is_more_than_a_day_old(bucket_object, current_time)]
 
 
-def download_most_recent_file():
-    """Downloads the most recent file.
+def download_old_files():
+    """Downloads files more than 24hrs old.
         The main function to be called from the pipeline code."""
 
     load_dotenv()
-
     s3 = client(service_name="s3",
                 aws_access_key_id=ENV["AWS_ACCESS_KEY"],
                 aws_secret_access_key=ENV["AWS_SECRET_ACCESS_KEY"])
 
-    file_names = get_object_names(s3)
-    most_recent = get_latest_object_string(file_names)
+    file_names = filter_old_objects(get_object_names(s3))
 
-    to_be_downloaded = ENV["OBJECT_NAME_PREFIX"]+most_recent
+    recordings = []
+    for file_name in file_names:
 
-    s3.download_file(
-        Bucket=ENV["INPUT_BUCKET_NAME"],
-        Key=to_be_downloaded,
-        Filename=most_recent
-    )
-    return most_recent
+        s3.download_file(Bucket=ENV["BUCKET_NAME"],
+                         Key=file_name,
+                         Filename=file_name)
 
+        s3.delete_object(Bucket=ENV["BUCKET_NAME"],
+                         Key=file_name)
 
-if __name__ == "__main__":
+        with open(file_name, "r") as f:
+            recordings.extend(json.load(f))
 
-    load_dotenv()
-    s3 = client(service_name="s3",
-                aws_access_key_id=ENV["AWS_ACCESS_KEY"],
-                aws_secret_access_key=ENV["AWS_SECRET_ACCESS_KEY"])
-    print(filter_old_objects(get_object_names(s3)))
+        os.remove(file_name)
+
+    return recordings

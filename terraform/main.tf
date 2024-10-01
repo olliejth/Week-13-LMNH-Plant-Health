@@ -157,3 +157,81 @@ resource "aws_scheduler_schedule" "short_term_etl_schedule" {
         role_arn = aws_iam_role.eventbridge_scheduler_role.arn
     }
 }
+
+# =========================== Long Term ETL Pipeline ===========================
+
+# resource "aws_ecs_task_definition" "lmnh_etl_long_term_etl_td" {
+#     family                   = "c13-rvbyaulf-lmnh-etl-long-term-etl-task-definition"
+#     requires_compatibilities = ["FARGATE"]
+#     network_mode             = "awsvpc"
+#     cpu                      = "256"
+#     memory                   = "1024"
+#     execution_role_arn       = data.aws_iam_role.execution_role.arn
+
+#     container_definitions = jsonencode([
+#         {
+#             name      = "pharmazer-etl-pipeline"
+#             image     = data.aws_ecr_image.lmnh_plants_etl_long_term.image_uri
+#             essential = true
+#             memory    = 1024
+#             environment = [
+#                 {
+#                     name  = "AWS_ACCESS_KEY"
+#                     value = var.AWS_ACCESS_KEY
+#                 },
+#                 {
+#                     name  = "AWS_SECRET_ACCESS_KEY"
+#                     value = var.AWS_SECRET_ACCESS_KEY
+#                 },
+#                 {
+#                     name  = "BUCKET_NAME"
+#                     value = var.BUCKET_NAME
+#                 },
+#                 {
+#                     name  = "USER_NAME"
+#                     value = var.USER_NAME
+#                 },
+#                 {
+#                     name  = "COHORT_NAME"
+#                     value = var.COHORT_NAME
+#                 },
+#                 {
+#                     name  = "REGION"
+#                     value = var.REGION
+#                 },
+#                 {
+#                     name  = "DB_HOST"
+#                     value = var.DB_HOST
+#                 },
+#                 {
+#                     name  = "DB_PORT"
+#                     value = var.DB_PORT
+#                 },
+#                 {
+#                     name  = "DB_USER"
+#                     value = var.DB_USER
+#                 },
+#                 {
+#                     name  = "DB_PASSWORD"
+#                     value = var.DB_PASSWORD
+#                 },
+#                 {
+#                     name  = "DB_NAME"
+#                     value = var.DB_NAME
+#                 },
+#                 {
+#                     name  = "SCHEMA_NAME"
+#                     value = var.SCHEMA_NAME
+#                 },
+#             ]
+#             logConfiguration = {
+#                 logDriver = "awslogs"
+#                 options = {
+#                     awslogs-group         = "/ecs/c13-shayak-pharmazer-etl-pipeline"
+#                     awslogs-region        = var.REGION
+#                     awslogs-stream-prefix = "ecs"
+#                 }
+#             }
+#         }
+#     ])
+# }

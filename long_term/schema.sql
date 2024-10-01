@@ -48,5 +48,7 @@ CREATE TABLE reading(
     temperature DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (reading_id),
     FOREIGN KEY (plant_id) REFERENCES plant(plant_id),
-    FOREIGN KEY (botanist_id) REFERENCES botanist(botanist_id)
+    FOREIGN KEY (botanist_id) REFERENCES botanist(botanist_id),
+    CHECK (at <= NOW()),
+    CHECK (last_watered <= NOW())
 );

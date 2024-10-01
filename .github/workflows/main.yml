@@ -43,5 +43,5 @@ jobs:
       continue-on-error: false
 
     - name: Lint
-        run: |
-           find . -name "*.py" | xargs pylint --fail-under=8
+      run: |
+        find . -name "*.py" | xargs pylint --fail-under=8

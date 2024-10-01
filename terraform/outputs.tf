@@ -1,5 +1,5 @@
 # Describe information terraform should share with you.
 
-output "task_definition_id" {
-    value = aws_ecs_task_definition.pharmazer-etl-pipeline-td.arn
+output "etl_short_term_lambda_arn" {
+    value = aws_lambda_function.lmnh_etl_short_term_lambda.arn
 }

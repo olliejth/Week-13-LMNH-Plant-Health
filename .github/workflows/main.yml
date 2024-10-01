@@ -39,25 +39,10 @@ jobs:
     # Write Pytest overview results to a file
     - name: Record test results
       run: |
-        pytest  -r N --tb=no > code_review/marking.txt || true
+        pytest
       continue-on-error: false
-
-    # Add a space between Pytest and Pylint results
-    - name: Add separator between test results and pylint
-      run: echo -e "\n\nPylint Results =====================\n" >> code_review/marking.txt
 
     - name: Checking the code with pylint
       run: |
         find . -path "./.utils/*" -prune -o -name '*.py' -print \
-        -exec pylint --fail-under=8 {} \; \
-        >> code_review/marking.txt
-    
-    - name: Push badge and combined results
-      run: |
-        git config --global user.name "SigmaBot"
-        git config --global user.email "coaches@sigmalabs.co.uk"
-        git pull
-        git add code_review/marking.txt
-        git checkout main
-        git diff-index --quiet HEAD || git commit -am "Update code marking"
-        git push
+        -exec pylint --fail-under=8 {} \;

@@ -94,12 +94,12 @@ resource "aws_lambda_function" "lmnh_etl_short_term_lambda" {
     environment {
         variables = {
             BUCKET_NAME = var.BUCKET_NAME
-            AWS_ACCESS_KEY = var.AWS_ACCESS_KEY
-            AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
+            AWS_rvbyaulf_KEY = var.AWS_ACCESS_KEY
+            AWS_rvbyaulf_SECRET_KEY = var.AWS_SECRET_ACCESS_KEY
         }
     }
 
-    image_config { command = ["pipeline.lambda_handler"] }
+    image_config { command = ["main.lambda_handler"] }
 }
 
 data "aws_iam_policy_document" "eventbridge_schedule_trust_policy" {
@@ -209,11 +209,11 @@ resource "aws_ecs_task_definition" "lmnh_etl_long_term_etl_td" {
             memory    = 1024
             environment = [
                 {
-                    name  = "AWS_ACCESS_KEY"
+                    name  = "AWS_rvbyaulf_KEY"
                     value = var.AWS_ACCESS_KEY
                 },
                 {
-                    name  = "AWS_SECRET_ACCESS_KEY"
+                    name  = "AWS_rvbyaulf_SECRET_KEY"
                     value = var.AWS_SECRET_ACCESS_KEY
                 },
                 {

@@ -1,5 +1,7 @@
 # Specifies latest image of python
-FROM python:latest
+FROM public.ecr.aws/lambda/python:latest
+
+WORKDIR ${LAMBDA_TASK_ROOT}
 
 # Copies txt file containing env package requirements
 COPY requirements.txt .
@@ -13,4 +15,4 @@ COPY load.py .
 COPY pipeline.py .
 
 # Runs pipeline
-CMD ["python", "pipeline.py"]
+CMD ["pipeline.lambda_handler"]

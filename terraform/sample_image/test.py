@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     bucket_client = boto3.client(service_name="s3")
 
     files = get_object_names_with_timestamps(
-        bucket_client, ENV['INPUT_BUCKET_NAME'])
+        bucket_client, ENV['BUCKET_NAME'])
 
     print("Files found:")
     for file in files:

@@ -1,20 +1,22 @@
 """This script is for getting plant metadata from the API, and storing it in the S3 bucket."""
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import requests as req
 
 BASE_URL = "https://data-eng-plants-api.herokuapp.com/plants/"
 
 
-def get_plant_data() -> list[dict]:
+def get_plant_data(number: int = 50) -> list[dict]:
     """Makes the API calls and returns the raw json files."""
 
     results = [req.get(BASE_URL+str(i))
-               for i in range(1, 5)]
+               for i in range(1, number + 1)]
 
     return [res.json() for res in results]
 
 
-def get_botanist_data(raw_botanist_data: dict) -> dict:
+def extract_botanist_data(raw_botanist_data: dict) -> dict:
     """Returns the relevant metadata of the botanist."""
 
     name = raw_botanist_data["name"].split(" ")
@@ -27,14 +29,76 @@ def get_botanist_data(raw_botanist_data: dict) -> dict:
     }
 
 
-def get_location_data(raw_location_data: dict) -> dict:
+def get_timezone_from_region(region: str) -> str:
+    """Returns the timezone from a region."""
+
+    dt = datetime(2024, 9, 9, 12, 00, tzinfo=ZoneInfo(region))
+
+    return dt.tzname()
+
+
+def extract_location_data(raw_location_data: list) -> dict:
     """Returns the relevant metadata of the location."""
+
+    latitude = raw_location_data[0]
+    longitude = raw_location_data[1]
+    town = raw_location_data[2]
+    timezone = get_timezone_from_region(raw_location_data[-1])
+
+    return {
+        "latitude": float(latitude),
+        "longitude": float(longitude),
+        "town": town,
+        "timezone": timezone
+    }
+
+
+def extract_plant_data(reading_data: dict) -> dict:
+    """Returns the relevant metadata of the plant."""
+
+    image_data = plant_data.get("images", {})
+    plant_data = {
+        "plant_id": reading_data["plant_id"],
+        "plant_name": reading_data["name"],
+        "plant_scientific_name": reading_data.get("scientific_name", [None])[0],
+        "small_url": image_data.get("small_url"),
+        "medium_url": image_data.get("medium_url"),
+        "regular_url": image_data.get("regular_url"),
+        "original_url": image_data.get("original_url"),
+        "thumbnail_url": image_data.get("thumbnail")
+    }
+
+    return plant_data
 
 
 def extract_relevant_data(reading_data: dict) -> dict:
     """Gets only the relevant metadata from a plant's data."""
 
+    botanist_data = extract_botanist_data(reading_data["botanist"])
+    location_data = extract_location_data(reading_data["origin_location"])
+    plant_data = extract_plant_data(reading_data)
+
+    return {
+        "botanist_data": botanist_data,
+        "location_data": location_data,
+        "plant_data": plant_data
+    }
+
+
+def extract_api_data() -> list[dict]:
+    """Extracts data from the API.
+        This is the main function that should be called from the outside."""
+
+    plants = get_plant_data(5)
+
+    plant_data = []
+    for i in range(0, len(plants)):
+        print(i)
+        plant_data.append(extract_relevant_data(plants[i]))
+
+    return plants
+
 
 if __name__ == "__main__":
 
-    print(get_plant_data())
+    print(extract_api_data())

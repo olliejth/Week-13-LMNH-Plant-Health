@@ -1,5 +1,6 @@
 # pylint: skip-file
-from extract import get_botanist_data
+from unittest.mock import patch
+from extract import extract_botanist_data, extract_location_data, extract_plant_data
 
 
 class TestExtract:
@@ -12,7 +13,7 @@ class TestExtract:
             "phone": "(846)669-6651x75948"
         }
 
-        data = get_botanist_data(raw_data)
+        data = extract_botanist_data(raw_data)
 
         assert data["first_name"] == "Eliza"
         assert data["last_name"] == "Andrews"
@@ -27,9 +28,27 @@ class TestExtract:
             "phone": "12345678"
         }
 
-        data = get_botanist_data(raw_data)
+        data = extract_botanist_data(raw_data)
 
         assert data["first_name"] == "First"
         assert data["last_name"] == "Last"
         assert data["email"] == "john@example.com"
         assert data["phone"] == "12345678"
+
+    @patch("extract.get_timezone_from_region")
+    def test_extract_location_data(self, fake_tz):
+
+        fake_tz.return_value = "GMT"
+
+        raw_data = [
+            "33.95015",
+            "-118.03917",
+            "South Whittier",
+            "US",
+            "Somewhere"
+        ]
+        data = extract_location_data(raw_data)
+        assert data["latitude"] == 33.95015
+        assert data["longitude"] == -118.03917
+        assert data["town"] == "South Whittier"
+        assert data["timezone"] == "GMT"

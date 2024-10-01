@@ -1,9 +1,7 @@
-"""Script to execute extract and transform pipeline"""
-
-from os import path, remove, environ as ENV
+import json
+from os import environ as ENV
 from datetime import datetime
-
-from boto3 import client
+import boto3
 from dotenv import load_dotenv
 
 
@@ -15,23 +13,32 @@ def get_object_names_with_timestamps(client, bucket_name: str) -> list[dict]:
     if 'Contents' not in objects:
         return []
 
-    return [{"FilePath": o["Key"], "LastModified": o["LastModified"]} for o in objects["Contents"]]
+    return [{"FilePath": o["Key"], "LastModified": o["LastModified"].isoformat()} for o in objects["Contents"]]
 
 
-if __name__ == '__main__':
+def lambda_handler(event, context):
+    """Main handler function for the Lambda."""
+    # Load environment variables if needed (for local testing)
+
     load_dotenv()
 
-    print(f"Starting process")
-    bucket_client = client(service_name="s3",
-                           aws_access_key_id=ENV["AWS_ACCESS_KEY"],
-                           aws_secret_access_key=ENV["AWS_SECRET_ACCESS_KEY"])
+    print(f"Started process: {datetime.now()}")
+    bucket_client = boto3.client(service_name="s3")
 
     files = get_object_names_with_timestamps(
         bucket_client, ENV['INPUT_BUCKET_NAME'])
 
     print("Files found:")
-
     for file in files:
-        print(f"{file["FilePath"]} ({file["LastModified"]})")
+        print(f"{file['FilePath']} ({file['LastModified']})")
 
-    print(f"Finished process")
+    print(f"Finished process: {datetime.now()}")
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(files)
+    }
+
+
+if __name__ == '__main__':
+    lambda_handler({}, {})

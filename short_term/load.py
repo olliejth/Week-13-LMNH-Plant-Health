@@ -10,8 +10,8 @@ load_dotenv()
 def get_s3_client():
     """Returns boto3 s3 client."""
     return client(service_name="s3",
-                  aws_access_key_id=ENV["AWS_ACCESS_KEY"],
-                  aws_secret_access_key=ENV["AWS_SECRET_ACCESS_KEY"])
+                  aws_access_key_id=ENV["AWS_KEY"],
+                  aws_secret_access_key=ENV["AWS_SECRET_KEY"])
 
 
 def upload_csv(filename, s3_client) -> None:

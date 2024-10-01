@@ -1,4 +1,5 @@
-import json
+"""Sample script to run on lambda while ETL pipelines are developed"""
+
 from os import environ as ENV
 from datetime import datetime
 import boto3
@@ -13,10 +14,12 @@ def get_object_names_with_timestamps(client, bucket_name: str) -> list[dict]:
     if 'Contents' not in objects:
         return []
 
-    return [{"FilePath": o["Key"], "LastModified": o["LastModified"].isoformat()} for o in objects["Contents"]]
+    return [{"FilePath": o["Key"],
+             "LastModified": o["LastModified"].isoformat()}
+            for o in objects["Contents"]]
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, context):  # pylint: disable=W0613
     """Main handler function for the Lambda."""
     # Load environment variables if needed (for local testing)
 

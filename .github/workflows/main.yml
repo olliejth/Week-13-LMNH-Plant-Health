@@ -1,0 +1,53 @@
+name: Test and Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  speak:
+    name: speak
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Echo a message
+      run: echo "Pytest and Pylint is running!"
+
+  marking:
+    name: pytest and pylint
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Install Python
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    # Install required packages
+    - name: Install packages
+      run: |
+        pip install -r ./requirements.txt
+    # Write Pytest overview results to a file
+    - name: Record test results
+      run: |
+        pytest  -r N --tb=no > code_review/marking.txt || true
+      continue-on-error: false
+
+    # Add a space between Pytest and Pylint results
+    - name: Add separator between test results and pylint
+      run: echo -e "\n\nPylint Results =====================\n" >> code_review/marking.txt
+
+    - name: Analysing the code with pylint
+      run: |
+        find . -path "./.utils/*" -prune -o -name '*.py' -print \
+        -exec pylint --fail-under=8 {} \; \
+        >> code_review/marking.txt

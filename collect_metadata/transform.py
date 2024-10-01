@@ -26,12 +26,12 @@ if __name__ == "__main__":
     location_data = [plant["location_data"] for plant in api_data]
     plant_data = [plant["plant_data"] for plant in api_data]
 
-    with open("botanists.csv", "w") as f:
+    with open("botanists.csv", "w", encoding='UTF-8') as f:
         writer = csv.writer(f)
         writer.writerows(turn_into_csv_input(botanist_data))
-    with open("locations.csv", "w") as f:
+    with open("locations.csv", "w", encoding='UTF-8') as f:
         writer = csv.writer(f)
         writer.writerows(turn_into_csv_input(location_data))
-    with open("plants.csv", "w") as f:
+    with open("plants.csv", "w", encoding='UTF-8') as f:
         writer = csv.writer(f)
         writer.writerows(turn_into_csv_input(plant_data))

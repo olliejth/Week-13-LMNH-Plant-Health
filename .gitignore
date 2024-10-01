@@ -16,3 +16,7 @@ __pycache__
 # Logs
 *.log
 .log
+
+# Data
+*.csv
+*.json

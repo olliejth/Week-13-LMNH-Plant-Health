@@ -46,7 +46,7 @@ jobs:
     - name: Add separator between test results and pylint
       run: echo -e "\n\nPylint Results =====================\n" >> code_review/marking.txt
 
-    - name: Analysing the code with pylint
+    - name: Checking the code with pylint
       run: |
         find . -path "./.utils/*" -prune -o -name '*.py' -print \
         -exec pylint --fail-under=8 {} \; \

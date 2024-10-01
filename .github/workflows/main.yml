@@ -42,7 +42,6 @@ jobs:
         pytest
       continue-on-error: false
 
-    - name: Checking the code with pylint
-      run: |
-        find . -path "./.utils/*" -prune -o -name '*.py' -print \
-        -exec pylint --fail-under=8 {} \;
+    - name: Lint
+        run: |
+           find . -name "*.py" | xargs pylint --fail-under=8

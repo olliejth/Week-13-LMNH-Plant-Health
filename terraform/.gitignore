@@ -1,0 +1,7 @@
+# Environment variables
+.terraform
+.terraform.lock.hcl
+terraform.*
+.terraform.tfstate.lock.info
+*.pemkey
+*.env

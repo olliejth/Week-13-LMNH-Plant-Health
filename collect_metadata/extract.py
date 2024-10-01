@@ -20,7 +20,7 @@ def extract_botanist_data(raw_botanist_data: dict) -> dict:
     """Returns the relevant metadata of the botanist."""
 
     if raw_botanist_data.get("name"):
-        name = raw_botanist_data["name"].split(" ")
+        name = raw_botanist_data.get("name").split(" ")
     else:
         name = (None, None)
 
@@ -67,7 +67,7 @@ def extract_plant_data(reading_data: dict) -> dict:
 
     image_data = reading_data.get("images", {})
     plant_data = {
-        "plant_id": reading_data["plant_id"],
+        "plant_id": reading_data.get("plant_id"),
         "plant_name": reading_data.get("name"),
         "plant_scientific_name": reading_data.get("scientific_name", [None])[0],
         "small_url": image_data.get("small_url"),
@@ -106,8 +106,3 @@ def extract_api_data() -> list[dict]:
         plant_data.append(extract_relevant_data(plants[i]))
 
     return plant_data
-
-
-if __name__ == "__main__":
-
-    ...

@@ -33,7 +33,7 @@ CREATE TABLE plant(
     medium_url TEXT NULL,
     original_url TEXT NULL,
     regular_url TEXT NULL,
-    thumbnail TEXT NULL,
+    thumbnail_url TEXT NULL,
     PRIMARY KEY (plant_id),
     FOREIGN KEY (origin_location_id) REFERENCES origin_location(location_id)
 );

@@ -3,7 +3,7 @@ import json
 from os import environ as ENV
 from datetime import datetime
 
-from boto3 import client
+import boto3
 from dotenv import load_dotenv
 
 
@@ -24,9 +24,9 @@ def lambda_handler(event, context):  # pylint: disable=W0613
     """Main handler function for the Lambda."""
 
     print(f"Started process: {datetime.now()}")
-    bucket_client = client(service_name="s3",
-                           aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
-                           aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
+    bucket_client = boto3.client(service_name="s3",
+                                 aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
+                                 aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
 
     files = get_object_names_with_timestamps(
         bucket_client, ENV['BUCKET_NAME'])

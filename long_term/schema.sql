@@ -20,13 +20,14 @@ CREATE TABLE origin_location(
     longitude DECIMAL(11,8) NOT NULL,
     town VARCHAR(255) NOT NULL,
     timezone VARCHAR(50) NOT NULL,
-    PRIMARY KEY (location_id)
+    PRIMARY KEY (location_id),
+     CONSTRAINT unique_location_combination UNIQUE (latitude, longitude, town, timezone)
 );
 
 CREATE TABLE plant(
     plant_id SMALLINT GENERATED ALWAYS AS IDENTITY,
     plant_name VARCHAR(255) NOT NULL,
-    plant_scientific_name VARCHAR(255) NULL,
+    plant_scientific_name VARCHAR(255) NULL UNIQUE,
     origin_location_id SMALLINT NOT NULL,
     -- Image URL fields are nullable
     small_url TEXT NULL,

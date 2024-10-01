@@ -7,7 +7,7 @@ def get_s3_client(env: dict):
     """Returns boto3 s3 client."""
     return client(service_name="s3",
                   aws_access_key_id=env["AWS_ACCESS_KEY"],
-                  aws_secret_access_key=env["AWS_SECRET_ACCESS_KEY"])
+                  aws_secret_access_key=env["AWS_PRIVATE_ACCESS_KEY"])
 
 
 def upload_csv(filename, s3_client, env) -> None:

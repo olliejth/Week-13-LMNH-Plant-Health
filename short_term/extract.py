@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import json
+
 import requests as req
 
 BASE_URL = "https://data-eng-plants-api.herokuapp.com/plants/"
@@ -19,7 +20,7 @@ def get_object_name() -> str:
 def get_plant_data(number: int = 50) -> list[dict]:
     """Makes the API calls and returns the raw json files."""
 
-    results = [req.get(BASE_URL+str(i))
+    results = [req.get(BASE_URL+str(i), timeout=10)
                for i in range(1, number + 1)]
 
     return [res.json() for res in results]
@@ -61,7 +62,7 @@ def extract_recordings() -> str:
             plant_data.append(recording_info)
 
     object_name = get_object_name()
-    with open(object_name, "w") as f:
+    with open(object_name, "w", encoding='UTF-8') as f:
         json.dump(plant_data, f, indent=6)
 
     return object_name

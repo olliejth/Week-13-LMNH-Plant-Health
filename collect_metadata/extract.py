@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
 import requests as req
 
 BASE_URL = "https://data-eng-plants-api.herokuapp.com/plants/"
@@ -10,7 +11,7 @@ BASE_URL = "https://data-eng-plants-api.herokuapp.com/plants/"
 def get_plant_data(number: int = 50) -> list[dict]:
     """Makes the API calls and returns the raw json files."""
 
-    results = [req.get(BASE_URL+str(i))
+    results = [req.get(BASE_URL+str(i), timeout=10)
                for i in range(1, number + 1)]
 
     return [res.json() for res in results]
@@ -102,7 +103,7 @@ def extract_api_data() -> list[dict]:
     plants = get_plant_data(50)
 
     plant_data = []
-    for i in range(0, len(plants)):
-        plant_data.append(extract_relevant_data(plants[i]))
+    for p in plants:
+        plant_data.append(extract_relevant_data(p))
 
     return plant_data

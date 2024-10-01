@@ -51,3 +51,13 @@ jobs:
         find . -path "./.utils/*" -prune -o -name '*.py' -print \
         -exec pylint --fail-under=8 {} \; \
         >> code_review/marking.txt
+    
+    - name: Push badge and combined results
+      run: |
+        git config --global user.name "SigmaBot"
+        git config --global user.email "coaches@sigmalabs.co.uk"
+        git pull
+        git add code_review/marking.txt
+        git checkout main
+        git diff-index --quiet HEAD || git commit -am "Update code marking"
+        git push

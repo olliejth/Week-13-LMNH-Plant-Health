@@ -1,6 +1,18 @@
+
+# Environment
 .env
 *.env
+
+# Venv
 venv
 *venv
 .venv
 *.venv
+
+# Python things
+__pycache__
+.pytest_cache
+
+# Logs
+*.log
+.log

@@ -94,12 +94,8 @@ resource "aws_lambda_function" "lmnh_etl_short_term_lambda" {
     environment {
         variables = {
             BUCKET_NAME = var.BUCKET_NAME
-            DB_HOST     = var.DB_HOST
-            DB_PORT     = var.DB_PORT
-            DB_NAME     = var.DB_NAME
-            DB_USER     = var.DB_USER
-            DB_PASSWORD = var.DB_PASSWORD
-            DB_SCHEMA   = var.SCHEMA_NAME
+            AWS_rvbyaulf_KEY = var.AWS_ACCESS_KEY
+            AWS_rvbyaulf_SECRET_KEY = var.AWS_SECRET_ACCESS_KEY
         }
     }
 
@@ -160,78 +156,169 @@ resource "aws_scheduler_schedule" "short_term_etl_schedule" {
 
 # =========================== Long Term ETL Pipeline ===========================
 
-# resource "aws_ecs_task_definition" "lmnh_etl_long_term_etl_td" {
-#     family                   = "c13-rvbyaulf-lmnh-etl-long-term-etl-task-definition"
-#     requires_compatibilities = ["FARGATE"]
-#     network_mode             = "awsvpc"
-#     cpu                      = "256"
-#     memory                   = "1024"
-#     execution_role_arn       = data.aws_iam_role.execution_role.arn
+resource "aws_cloudwatch_log_group" "lmnh_etl_long_term_etl__log_group" {
+    name = "/ecs/c13-rvbyaulf-lmnh-long-term-etl-pipeline"
+}
 
-#     container_definitions = jsonencode([
-#         {
-#             name      = "pharmazer-etl-pipeline"
-#             image     = data.aws_ecr_image.lmnh_plants_etl_long_term.image_uri
-#             essential = true
-#             memory    = 1024
-#             environment = [
-#                 {
-#                     name  = "AWS_ACCESS_KEY"
-#                     value = var.AWS_ACCESS_KEY
-#                 },
-#                 {
-#                     name  = "AWS_SECRET_ACCESS_KEY"
-#                     value = var.AWS_SECRET_ACCESS_KEY
-#                 },
-#                 {
-#                     name  = "BUCKET_NAME"
-#                     value = var.BUCKET_NAME
-#                 },
-#                 {
-#                     name  = "USER_NAME"
-#                     value = var.USER_NAME
-#                 },
-#                 {
-#                     name  = "COHORT_NAME"
-#                     value = var.COHORT_NAME
-#                 },
-#                 {
-#                     name  = "REGION"
-#                     value = var.REGION
-#                 },
-#                 {
-#                     name  = "DB_HOST"
-#                     value = var.DB_HOST
-#                 },
-#                 {
-#                     name  = "DB_PORT"
-#                     value = var.DB_PORT
-#                 },
-#                 {
-#                     name  = "DB_USER"
-#                     value = var.DB_USER
-#                 },
-#                 {
-#                     name  = "DB_PASSWORD"
-#                     value = var.DB_PASSWORD
-#                 },
-#                 {
-#                     name  = "DB_NAME"
-#                     value = var.DB_NAME
-#                 },
-#                 {
-#                     name  = "SCHEMA_NAME"
-#                     value = var.SCHEMA_NAME
-#                 },
-#             ]
-#             logConfiguration = {
-#                 logDriver = "awslogs"
-#                 options = {
-#                     awslogs-group         = "/ecs/c13-shayak-pharmazer-etl-pipeline"
-#                     awslogs-region        = var.REGION
-#                     awslogs-stream-prefix = "ecs"
-#                 }
-#             }
-#         }
-#     ])
-# }
+resource "aws_security_group" "lmnh_etl_long_term_etl_sg" {
+    name   = "c13-rvbyaulf-lmnh-long-term-etl-sg"
+    vpc_id = data.aws_vpc.c13-vpc.id
+
+    ingress = [
+        {
+            from_port        = 0
+            to_port          = 0
+            protocol         = "-1"
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = "Allow all inbound traffic"
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            security_groups  = []
+            self             = false
+        }
+    ]
+
+    egress = [
+        {
+            from_port        = 0
+            to_port          = 0
+            protocol         = "-1"
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = "Allow all outbound"
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            security_groups  = []
+            self             = false
+        }
+    ]
+}
+
+resource "aws_ecs_task_definition" "lmnh_etl_long_term_etl_td" {
+    family                   = "c13-rvbyaulf-lmnh-long-term-etl-task-definition"
+    requires_compatibilities = ["FARGATE"]
+    network_mode             = "awsvpc"
+    cpu                      = "256"
+    memory                   = "1024"
+    execution_role_arn       = data.aws_iam_role.execution_role.arn
+
+    container_definitions = jsonencode([
+        {
+            name      = "lmnh-long-term-etl-pipeline"
+            image     = data.aws_ecr_image.lmnh_plants_etl_long_term.image_uri
+            essential = true
+            memory    = 1024
+            environment = [
+                {
+                    name  = "AWS_rvbyaulf_KEY"
+                    value = var.AWS_ACCESS_KEY
+                },
+                {
+                    name  = "AWS_rvbyaulf_SECRET_KEY"
+                    value = var.AWS_SECRET_ACCESS_KEY
+                },
+                {
+                    name  = "BUCKET_NAME"
+                    value = var.BUCKET_NAME
+                },
+                {
+                    name  = "REGION"
+                    value = var.REGION
+                },
+                {
+                    name  = "DB_HOST"
+                    value = var.DB_HOST
+                },
+                {
+                    name  = "DB_PORT"
+                    value = var.DB_PORT
+                },
+                {
+                    name  = "DB_USER"
+                    value = var.DB_USER
+                },
+                {
+                    name  = "DB_PASSWORD"
+                    value = var.DB_PASSWORD
+                },
+                {
+                    name  = "DB_NAME"
+                    value = var.DB_NAME
+                },
+                {
+                    name  = "SCHEMA_NAME"
+                    value = var.SCHEMA_NAME
+                },
+            ]
+            logConfiguration = {
+                logDriver = "awslogs"
+                options = {
+                    awslogs-group         = "/ecs/c13-rvbyaulf-lmnh-long-term-etl-pipeline"
+                    awslogs-region        = var.REGION
+                    awslogs-stream-prefix = "ecs"
+                }
+            }
+        }
+    ])
+}
+
+data "aws_iam_policy_document" "eventbridge_long_term_schedule_trust_policy" {
+    statement {
+        effect = "Allow"
+        principals {
+            type        = "Service"
+            identifiers = ["scheduler.amazonaws.com"]
+        }
+        actions = ["sts:AssumeRole"]
+    }
+}
+
+resource "aws_iam_role" "eventbridge_long_term_scheduler_role" {
+    name               = "c13-rvbyaulf-lmnh-etl-long-term-eventbridge-scheduler-role"
+    assume_role_policy = data.aws_iam_policy_document.eventbridge_long_term_schedule_trust_policy.json
+}
+
+resource "aws_iam_role_policy" "eventbridge_ecs_invocation_policy" {
+    name = "EventBridgeECSInvocationPolicy"
+    role = aws_iam_role.eventbridge_long_term_scheduler_role.id
+
+    policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Effect = "Allow",
+                Action = "ecs:RunTask",
+                Resource = aws_ecs_task_definition.lmnh_etl_long_term_etl_td.arn
+            },
+            {
+                Effect = "Allow",
+                Action = "iam:PassRole",
+                Resource = data.aws_iam_role.execution_role.arn
+            }
+        ]
+    })
+}
+
+resource "aws_scheduler_schedule" "long_term_etl_schedule" {
+    name        = "c13-rvbyaulf-lmnh-etl-long-term-schedule"
+    description = "Scheduled rule to trigger the long-term ETL ECS task every 24 hours"
+    schedule_expression = "cron(0 0 * * ? *)"  # Runs every day at midnight UTC
+
+    flexible_time_window {
+        mode = "OFF"
+    }
+
+    target {
+        arn       = data.aws_ecs_cluster.c13_cluster.arn
+        role_arn  = aws_iam_role.eventbridge_long_term_scheduler_role.arn
+        ecs_parameters {
+            task_definition_arn = aws_ecs_task_definition.lmnh_etl_long_term_etl_td.arn
+            launch_type = "FARGATE"
+
+            network_configuration {
+                assign_public_ip = true
+                security_groups = [aws_security_group.lmnh_etl_long_term_etl_sg.id]
+                subnets = [var.SUBNET_ID, var.SUBNET_ID2, var.SUBNET_ID3]
+            }
+        }
+    }
+}

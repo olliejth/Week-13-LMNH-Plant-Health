@@ -9,7 +9,7 @@ from extract_long import extract_readings
 class TestExtractReadings:
 
     @patch('pd.read_sql')
-    @patch('extract.get_db_connection')
+    @patch('extract_long.get_db_connection')
     def test_calls(self, mock_get_db_connection, mock_read_sql):
 
         mock_connection = MagicMock()
@@ -23,7 +23,7 @@ class TestExtractReadings:
         mock_read_sql.assert_called_once()
 
     @patch('pd.read_sql')
-    @patch('extract.get_db_connection')
+    @patch('extract_long.get_db_connection')
     def test_with_data(self, mock_get_db_connection, mock_read_sql):
 
         mock_connection = MagicMock()

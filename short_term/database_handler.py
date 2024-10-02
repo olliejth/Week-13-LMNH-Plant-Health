@@ -25,7 +25,7 @@ def get_botanist_ids() -> dict:
     """Returns a dictionary mapping botanist names to IDs."""
     query_str = """
         SELECT botanist_id, first_name, last_name 
-        FROM botanist;
+        FROM beta.botanist;
     """
     with get_connection() as conn:
         with conn.cursor() as cursor:

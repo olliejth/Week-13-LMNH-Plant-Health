@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from extract_dashboard import extract_readings
-from transform_dashboard import create_botanist_pie, create_temperature_bar
+from transform_dashboard import create_botanist_pie, create_temperature_bar, create_moisture_bar, create_temperature_line
 
 if __name__ == "__main__":
 
@@ -12,9 +12,13 @@ if __name__ == "__main__":
 
     botanist_plants_pie = create_botanist_pie(plants_df)
     temp_bar_chart = create_temperature_bar(plants_df)
+    temp_line_chart = create_temperature_line(plants_df)
+    moist_bar_chart = create_moisture_bar(plants_df)
 
     st.altair_chart(botanist_plants_pie, use_container_width=True)
     st.altair_chart(temp_bar_chart, use_container_width=True)
+    st.altair_chart(temp_line_chart, use_container_width=True)
+    st.altair_chart(moist_bar_chart, use_container_width=True)
 
 
 #   st.sidebar.markdown("# Sidebar")

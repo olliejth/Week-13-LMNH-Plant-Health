@@ -1,17 +1,19 @@
 # pylint: skip-file
 
+from unittest import TestCase
 from unittest.mock import patch, MagicMock
 import pandas as pd
+import os
 
 from extract_long import extract_readings
 
 
-class TestExtractReadings:
+class TestExtractReadings(TestCase):
 
+    @patch.dict(os.environ, {'SCHEMA_NAME': 'dummy_schema'})
     @patch('pandas.read_sql')
     @patch('extract_long.get_db_connection')
     def test_calls(self, mock_get_db_connection, mock_read_sql):
-
         mock_connection = MagicMock()
         mock_get_db_connection.return_value.__enter__.return_value = mock_connection
 
@@ -22,10 +24,10 @@ class TestExtractReadings:
         mock_get_db_connection.assert_called_once()
         mock_read_sql.assert_called_once()
 
+    @patch.dict(os.environ, {'SCHEMA_NAME': 'dummy_schema'})
     @patch('pandas.read_sql')
     @patch('extract_long.get_db_connection')
     def test_with_data(self, mock_get_db_connection, mock_read_sql):
-
         mock_connection = MagicMock()
         mock_get_db_connection.return_value.__enter__.return_value = mock_connection
 

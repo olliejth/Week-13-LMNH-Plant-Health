@@ -3,7 +3,7 @@ from unittest.mock import patch, MagicMock
 import pytest
 import pandas as pd
 from datetime import date
-from long_term.load_long import create_csv, get_s3_client, upload_csv, load_recordings
+from load_long import create_csv, get_s3_client, upload_csv, load_recordings
 
 
 class TestCreateCSV():

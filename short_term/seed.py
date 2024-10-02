@@ -6,6 +6,7 @@ import pandas as pd
 
 from dotenv import load_dotenv
 import boto3
+import pymssql
 
 from database_handler import get_connection
 
@@ -42,7 +43,9 @@ def upload_locations():
 def upload_plants():
     """Uploads the plants data into the database."""
     plants_df = pd.read_csv('plants.csv')
-    plants_df = plants_df.dropna()
+    plants_df = plants_df.dropna(subset=['plant_name'])
+    plants_df = plants_df.where(pd.notna(plants_df), None)
+
     locations = get_locations()
     tuples = [format_plant_tuple(row, locations)
               for _, row in plants_df.iterrows()]
@@ -53,8 +56,16 @@ def upload_plants():
         (plant_id, plant_name, plant_scientific_name, origin_location_id,
         small_url, medium_url, original_url, regular_url, thumbnail_url)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-        cursor.executemany(insert_query, tuples)
-        conn.commit()
+
+        for plant in tuples:
+            try:
+                cursor.execute(insert_query, plant)
+                conn.commit()
+                print(f"Successfully inserted: {plant}")
+            except pymssql.IntegrityError as e:
+                print(f"Failed to insert {plant}: {e}")
+
+    print("All plants uploaded successfully.")
 
 
 def format_plant_tuple(row: dict, location_dict: dict) -> tuple:
@@ -73,3 +84,10 @@ def get_locations() -> dict:
         cursor.execute(query)
         results = cursor.fetchall()
         return {x['town']: x['location_id'] for x in results}
+
+
+def seed_all():
+    """The main function of seed.py downloads metadata and uses it to seed the database."""
+    download_metadata()
+    upload_locations()
+    upload_plants()

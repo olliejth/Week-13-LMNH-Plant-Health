@@ -3,7 +3,7 @@
 from os import environ as ENV
 
 import pandas as pd
-from pymssql import connect
+from pymssql import connect  # pylint: disable=E0611
 from dotenv import load_dotenv
 
 load_dotenv()

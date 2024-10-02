@@ -7,6 +7,14 @@ import pytest
 from transform_short import format_tuple, transform_recordings
 
 
+@pytest.fixture
+def mock_botanist_details():
+    return {
+        "Jane Doe": 101,
+        "John Smith": 102
+    }
+
+
 def test_format_tuple_data_type(mock_botanist_details):
 
     reading_data = {
@@ -20,10 +28,10 @@ def test_format_tuple_data_type(mock_botanist_details):
     result = format_tuple(reading_data, mock_botanist_details)
 
     assert isinstance(result, tuple)
-    assert isinstance(result[0], str)
+    assert isinstance(result[0], tuple)
 
 
-def test_format_tuple_with_inputs(mock_botanist_details):
+def test_format_tuple_with_input(mock_botanist_details):
 
     reading_data = {
         "plant_id": 1,

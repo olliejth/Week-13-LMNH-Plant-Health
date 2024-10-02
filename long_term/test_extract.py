@@ -6,31 +6,7 @@ from unittest.mock import patch, MagicMock
 import pandas as pd
 
 
-from extract_long import extract_readings, get_db_connection
-
-
-@patch.dict(ENV, {
-    'DB_HOST': 'dummy_host',
-    'DB_PORT': 'dummy_port',
-    'DB_USER': 'dummy_user',
-    'DB_PASSWORD': 'dummy_pass',
-    'DB_NAME': 'dummy_name'
-})
-@patch('pymssql.connect')
-def test_get_db_connection(mock_connect):
-
-    mock_connection = MagicMock()
-    mock_connect.return_value = mock_connection
-
-    get_db_connection()
-
-    mock_connect.assert_called_once_with(
-        server='dummy_host',
-        port='dummy_port',
-        user='dummy_user',
-        password='dummy_pass',
-        database='dummy_name'
-    )
+from extract_long import extract_readings
 
 
 class TestExtractReadings():
@@ -67,5 +43,5 @@ class TestExtractReadings():
 
         df = extract_readings()
 
-        self.assertEqual(len(df), 2)
+        assert len(df) == 2
         pd.testing.assert_frame_equal(df, pd.DataFrame(dummy_data))

@@ -28,7 +28,7 @@ def test_format_tuple_data_type(mock_botanist_details):
     result = format_tuple(reading_data, mock_botanist_details)
 
     assert isinstance(result, tuple)
-    assert isinstance(result[0], tuple)
+    assert isinstance(result[0], str)
 
 
 def test_format_tuple_with_input(mock_botanist_details):

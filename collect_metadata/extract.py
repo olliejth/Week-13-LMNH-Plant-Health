@@ -66,7 +66,7 @@ def extract_location_data(raw_location_data: list | None) -> dict:
 def extract_plant_data(reading_data: dict) -> dict:
     """Returns the relevant metadata of the plant."""
 
-    image_data = reading_data.get("images", {"error": True})
+    image_data = reading_data.get("images", {})
     if image_data is None:
         image_data = {}
     plant_data = {

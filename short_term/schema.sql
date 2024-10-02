@@ -5,7 +5,11 @@ IF OBJECT_ID('beta.plant', 'U') IS NOT NULL DROP TABLE beta.plant;
 IF OBJECT_ID('beta.origin_location', 'U') IS NOT NULL DROP TABLE beta.origin_location;
 IF OBJECT_ID('beta.botanist', 'U') IS NOT NULL DROP TABLE beta.botanist;
 
+<<<<<<< HEAD:short_term/schema.sql
 CREATE TABLE beta.botanist (
+=======
+CREATE TABLE beta.botanist(
+>>>>>>> origin:long_term/schema.sql
     botanist_id SMALLINT IDENTITY(1,1),
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,

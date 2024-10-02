@@ -3,9 +3,11 @@
 """Test file for load functions."""
 
 from unittest.mock import patch, MagicMock
+from datetime import date
+
 import pytest
 import pandas as pd
-from datetime import date
+
 from load_long import create_csv, get_s3_client, upload_csv, load_recordings
 
 
@@ -42,21 +44,17 @@ class TestCreateCSV():
 
 class TestGetS3Client():
 
+    @patch.dict("load_long.ENV", {"AWS_rvbyaulf_KEY": "test_access_key", "AWS_rvbyaulf_SECRET_KEY": "test_secret_key"})
     @patch("load_long.client")
     def test_get_s3_client_core_functionality(self, mock_s3_client):
-        test_env = {
-            "AWS_rvbyaulf_KEY": "test_access_key",
-            "AWS_rvbyaulf_SECRET_KEY": "test_secret_key"
-        }
 
-        with patch.dict('load_long.ENV', test_env):
-            get_s3_client()
+        get_s3_client()
 
-            mock_s3_client.assert_called_once_with(
-                service_name="s3",
-                aws_access_key_id="test_access_key",
-                aws_secret_access_key="test_secret_key"
-            )
+        mock_s3_client.assert_called_once_with(
+            service_name="s3",
+            aws_access_key_id="test_access_key",
+            aws_secret_access_key="test_secret_key"
+        )
 
 
 class TestUploadCSV():

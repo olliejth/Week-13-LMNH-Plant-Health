@@ -13,7 +13,7 @@ class TestCreateCSV():
 
         mock_df = pd.DataFrame({"c1": [1, 2], "c2": [3, 4]})
 
-        expected_filename = f"summary_{date.today()}.csv"
+        expected_filename = f"summary-{date.today()}.csv"
 
         assert create_csv(mock_df) == expected_filename
 

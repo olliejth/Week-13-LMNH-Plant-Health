@@ -16,7 +16,7 @@ def create_csv(df: pd.DataFrame) -> str:
     if not isinstance(df, pd.DataFrame):
         raise TypeError("Invalid data, input data must be a pandas dataframe.")
 
-    filename = f"summary_{date.today()}.csv"
+    filename = f"summary-{date.today()}.csv"
     df.to_csv(filename, index=False)
 
     return filename
@@ -41,7 +41,7 @@ def upload_csv(filename, s3_client) -> None:
 
 def load_recordings(df: pd.DataFrame) -> None:
     """Uploads local csv file to S3 bucket"""
-    
+
     file_name = create_csv(df)
 
     s3 = get_s3_client()

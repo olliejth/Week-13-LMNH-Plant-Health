@@ -8,4 +8,4 @@ COPY test.py ./
 RUN pip install -r requirements.txt
 RUN chmod +x test.py
 
-ENTRYPOINT ["python", "test.py"]
+CMD ["python3", "test.py"]

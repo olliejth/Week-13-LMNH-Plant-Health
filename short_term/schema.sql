@@ -5,13 +5,17 @@ IF OBJECT_ID('beta.plant', 'U') IS NOT NULL DROP TABLE beta.plant;
 IF OBJECT_ID('beta.origin_location', 'U') IS NOT NULL DROP TABLE beta.origin_location;
 IF OBJECT_ID('beta.botanist', 'U') IS NOT NULL DROP TABLE beta.botanist;
 
+<<<<<<< HEAD:short_term/schema.sql
+CREATE TABLE beta.botanist (
+=======
 CREATE TABLE beta.botanist(
+>>>>>>> origin:long_term/schema.sql
     botanist_id SMALLINT IDENTITY(1,1),
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(30) NOT NULL UNIQUE,
-    PRIMARY KEY(botanist_id)
+    PRIMARY KEY (botanist_id)
 );
 
 CREATE TABLE beta.origin_location(
@@ -21,13 +25,12 @@ CREATE TABLE beta.origin_location(
     town VARCHAR(255) NOT NULL,
     timezone VARCHAR(50) NOT NULL,
     PRIMARY KEY (location_id),
-    CONSTRAINT unique_location_combination UNIQUE (latitude, longitude, town, timezone)
 );
 
 CREATE TABLE beta.plant(
     plant_id SMALLINT NOT NULL,
     plant_name VARCHAR(255) NOT NULL,
-    plant_scientific_name VARCHAR(255) NULL UNIQUE,
+    plant_scientific_name VARCHAR(255) NULL,
     origin_location_id SMALLINT NOT NULL,
     -- Image URL fields are nullable
     small_url VARCHAR(MAX) NULL,
@@ -53,3 +56,12 @@ CREATE TABLE beta.reading(
     CHECK (at <= SYSDATETIME()),
     CHECK (last_watered <= SYSDATETIME())
 );
+
+INSERT INTO beta.botanist (first_name, last_name, email, phone)
+VALUES
+    ('Gertrude', 'Jekyll', 'gertrude.jekyll@lnhm.co.uk', '001-481-273-3691x127'),
+    ('Carl', 'Linnaeus', 'carl.linnaeus@lnhm.co.uk', '(146)994-1635x35992'),
+    ('Eliza', 'Andrews', 'eliza.andrews@lnhm.co.uk', '(846)669-6651x75948');
+
+INSERT INTO beta.origin_location(latitude, longitude, town, timezone)
+VALUES (0, 0, 'Unknown Location.', '0');

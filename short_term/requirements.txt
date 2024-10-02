@@ -3,3 +3,4 @@ boto3
 python-dotenv
 pymssql
 pandas
+asyncio

@@ -8,10 +8,10 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copies working files.
-COPY extract.py .
-COPY transform.py .
-COPY load.py .
-COPY pipeline.py .
+COPY extract_long.py .
+COPY transform_long.py .
+COPY load_long.py .
+COPY pipeline_long.py .
 
 # Runs pipeline
-CMD ["python", "pipeline.py"]
+CMD ["python", "pipeline_long.py"]

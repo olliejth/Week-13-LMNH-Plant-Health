@@ -9,7 +9,7 @@ def create_summary(df: pd.DataFrame) -> pd.DataFrame:
     output_data = df.groupby(["plant_id"])["temperature"].min(
     ).reset_index().rename(columns={"temperature": "min_T"})
 
-    output_data["plant_name"] = df["plant_name"]
+    output_data["plant_id"] = df["plant_id"]
 
     output_data["max_T"] = df.groupby(
         ["plant_id"])["temperature"].max().reset_index()["temperature"]
@@ -29,6 +29,6 @@ def create_summary(df: pd.DataFrame) -> pd.DataFrame:
     output_data["std_M"] = df.groupby(["plant_id"])[
         "soil_moisture"].std().reset_index()["soil_moisture"]
 
-    output_data = output_data.iloc[:, [0, 2, 1, 3, 4, 5, 6, 7, 8]]
+    output_data = output_data.iloc[:, [0, 2, 1, 3, 4, 5, 6, 7]]
 
     return output_data

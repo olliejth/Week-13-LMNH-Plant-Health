@@ -21,6 +21,15 @@ def get_connection():
     )
 
 
+def get_plant_ids() -> list[int]:
+    """Returns a list of all plants in the database."""
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT plant_id FROM beta.plant;")
+            plant_ids = cursor.fetchall()
+            return [x['plant_id'] for x in plant_ids]
+
+
 def get_botanist_ids() -> dict:
     """Returns a dictionary mapping botanist names to IDs."""
     query_str = """

@@ -1,16 +1,41 @@
 # pylint: skip-file
 
-from unittest import TestCase
+from os import environ as ENV
 from unittest.mock import patch, MagicMock
+
 import pandas as pd
-import os
-
-from extract_long import extract_readings
 
 
-class TestExtractReadings(TestCase):
+from extract_long import extract_readings, get_db_connection
 
-    @patch.dict(os.environ, {'SCHEMA_NAME': 'dummy_schema'})
+
+@patch.dict(ENV, {
+    'DB_HOST': 'dummy_host',
+    'DB_PORT': 'dummy_port',
+    'DB_USER': 'dummy_user',
+    'DB_PASSWORD': 'dummy_pass',
+    'DB_NAME': 'dummy_name'
+})
+@patch('pymssql.connect')
+def test_get_db_connection(mock_connect):
+
+    mock_connection = MagicMock()
+    mock_connect.return_value = mock_connection
+
+    get_db_connection()
+
+    mock_connect.assert_called_once_with(
+        server='dummy_host',
+        port='dummy_port',
+        user='dummy_user',
+        password='dummy_pass',
+        database='dummy_name'
+    )
+
+
+class TestExtractReadings():
+
+    @patch.dict(ENV, {'SCHEMA_NAME': 'dummy_schema'})
     @patch('pandas.read_sql')
     @patch('extract_long.get_db_connection')
     def test_calls(self, mock_get_db_connection, mock_read_sql):
@@ -24,7 +49,7 @@ class TestExtractReadings(TestCase):
         mock_get_db_connection.assert_called_once()
         mock_read_sql.assert_called_once()
 
-    @patch.dict(os.environ, {'SCHEMA_NAME': 'dummy_schema'})
+    @patch.dict(ENV, {'SCHEMA_NAME': 'dummy_schema'})
     @patch('pandas.read_sql')
     @patch('extract_long.get_db_connection')
     def test_with_data(self, mock_get_db_connection, mock_read_sql):

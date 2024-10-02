@@ -21,13 +21,12 @@ CREATE TABLE beta.origin_location(
     town VARCHAR(255) NOT NULL,
     timezone VARCHAR(50) NOT NULL,
     PRIMARY KEY (location_id),
-    CONSTRAINT unique_location_combination UNIQUE (latitude, longitude, town, timezone)
 );
 
 CREATE TABLE beta.plant(
     plant_id SMALLINT NOT NULL,
     plant_name VARCHAR(255) NOT NULL,
-    plant_scientific_name VARCHAR(255) NULL UNIQUE,
+    plant_scientific_name VARCHAR(255) NULL,
     origin_location_id SMALLINT NOT NULL,
     -- Image URL fields are nullable
     small_url VARCHAR(MAX) NULL,

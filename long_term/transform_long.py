@@ -15,7 +15,10 @@ def round_numerical_columns(df: pd.DataFrame, columns: list[str], round_dp: int)
 
 
 def create_summary(df: pd.DataFrame, round_dp: int = 2) -> pd.DataFrame:
-    """Creates a dataframe containing a summary of all of the day's recordings."""
+    """
+    Creates a dataframe containing a summary of all of the day's recordings.
+    Note: standard dev formula is one for a sample, not population
+    """
 
     output_data = df.groupby(["plant_id"])["temperature"].min(
     ).reset_index().rename(columns={"temperature": "min_T"})

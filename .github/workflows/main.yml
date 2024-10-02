@@ -37,6 +37,7 @@ jobs:
       run: |
         pip install -r ./collect_metadata/requirements.txt
         pip install -r ./short_term/requirements.txt
+        pip install -r ./long_term/requirements.txt
 
     - name: Run pytest
       run: |

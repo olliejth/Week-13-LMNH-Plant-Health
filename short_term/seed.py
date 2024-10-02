@@ -73,9 +73,3 @@ def get_locations() -> dict:
         cursor.execute(query)
         results = cursor.fetchall()
         return {x['town']: x['location_id'] for x in results}
-
-
-if __name__ == "__main__":
-    # download_metadata()
-    upload_locations()
-    upload_plants()

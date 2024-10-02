@@ -1,8 +1,8 @@
 """Whole pipeline script for short-term storage."""
 
-from short_term.extract_short import extract_recordings
-from short_term.transform_short import transform_recordings
-from short_term.load_short import upload_readings
+from extract_short import extract_recordings
+from transform_short import transform_recordings
+from load_short import upload_readings
 
 
 def lambda_handler(event=None, context=None):

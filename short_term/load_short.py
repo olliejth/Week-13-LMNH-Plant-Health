@@ -1,4 +1,4 @@
-"""Given a file name uploads local json file to S3 bucket."""
+"""Given a file name uploads local json file to RDS."""
 
 from json import loads
 from datetime import datetime

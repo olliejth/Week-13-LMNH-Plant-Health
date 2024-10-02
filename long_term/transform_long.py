@@ -3,7 +3,7 @@
 import pandas as pd
 
 
-def create_summary(df: pd.DataFrame) -> pd.DataFrame:
+def create_summary(df: pd.DataFrame, round_dp: int = 2) -> pd.DataFrame:
     """Creates a dataframe containing a summary of all of the day's recordings."""
 
     output_data = df.groupby(["plant_id"])["temperature"].min(
@@ -30,5 +30,9 @@ def create_summary(df: pd.DataFrame) -> pd.DataFrame:
         "soil_moisture"].std().reset_index()["soil_moisture"]
 
     output_data = output_data.iloc[:, [0, 2, 1, 3, 4, 5, 6, 7, 8]]
+
+    num_cols = ["min_T", "max_T", "min_M", "max_M", "std_T", "std_M"]
+    output_data[num_cols] = output_data[num_cols].apply(
+        lambda x: x.round(round_dp))
 
     return output_data

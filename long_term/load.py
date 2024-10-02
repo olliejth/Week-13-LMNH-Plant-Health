@@ -12,7 +12,7 @@ load_dotenv()
 
 def create_csv(df: pd.DataFrame) -> str:
     """Creates local csv from pandas dataframe."""
-    filename = f"summary_{date.today()}.csv"
+    filename = f"summary-{date.today()}.csv"
     df.to_csv(filename, index=False)
 
     return filename
@@ -26,7 +26,7 @@ def get_s3_client():
 
 
 def upload_csv(filename, s3_client) -> None:
-    """Uploads json file by name to S3 bucket."""
+    """Uploads csv file by name to S3 bucket."""
     bucket = ENV["BUCKET_NAME"]
     upload_filename = f"recordings/{filename}"
 

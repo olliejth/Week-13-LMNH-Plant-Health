@@ -39,14 +39,14 @@ class TestCreateCSV():
 
 class TestGetS3Client():
 
-    @patch("load.client")
+    @patch("load_long.client")
     def test_get_s3_client_core_functionality(self, mock_s3_client):
         test_env = {
             "AWS_rvbyaulf_KEY": "test_access_key",
             "AWS_rvbyaulf_SECRET_KEY": "test_secret_key"
         }
 
-        with patch.dict('load.ENV', test_env):
+        with patch.dict('load_long.ENV', test_env):
             get_s3_client()
 
             mock_s3_client.assert_called_once_with(
@@ -59,8 +59,8 @@ class TestGetS3Client():
 class TestUploadCSV():
 
     # Mock the environment variable
-    @patch('load.ENV', {"BUCKET_NAME": "test-bucket"})
-    @patch('load.client')
+    @patch('load_long.ENV', {"BUCKET_NAME": "test-bucket"})
+    @patch('load_long.client')
     def test_upload_csv(self, mock_s3_client):
         mock_s3_client.upload_file = MagicMock()
 

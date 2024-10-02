@@ -3,7 +3,7 @@
 from unittest.mock import patch, MagicMock
 import pandas as pd
 
-from long_term.extract import extract_readings
+from extract_long import extract_readings
 
 
 class TestExtractReadings:

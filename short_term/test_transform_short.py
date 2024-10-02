@@ -60,8 +60,15 @@ def test_format_tuple(mock_botanist_details):
         "last_watered": "2024-09-29"
     }]''')
 @patch('database_handler.get_botanist_ids')
-def test_transform_recordings(mock_get_botanist_ids, mock_open):
+@patch('pymssql.connect')
+def test_transform_recordings(mock_connect, mock_get_botanist_ids, mock_open):
     """Test the transform_recordings function."""
+    # Mock the database connection and cursor
+    mock_connection = MagicMock()
+    mock_cursor = MagicMock()
+    mock_connect.return_value.__enter__.return_value = mock_connection
+    mock_connection.cursor.return_value.__enter__.return_value = mock_cursor
+
     mock_get_botanist_ids.return_value = {
         "Jane Doe": 101,
         "John Smith": 102
@@ -77,3 +84,4 @@ def test_transform_recordings(mock_get_botanist_ids, mock_open):
     assert result == expected_output
     mock_open.assert_called_once_with('dummy_file.json', 'r', encoding='UTF-8')
     mock_get_botanist_ids.assert_called_once()
+    mock_connect.assert_called_once()

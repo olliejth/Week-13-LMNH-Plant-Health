@@ -49,9 +49,9 @@ def test_get_recording_info(reading_data, expected):
 
 @patch('json.dump')
 @patch('builtins.open', new_callable=MagicMock)
-@patch('extract.get_object_name')
-@patch('extract.get_recording_info')
-@patch('extract.get_plant_data')
+@patch('extract_short.get_object_name')
+@patch('extract_short.get_recording_info')
+@patch('extract_short.get_plant_data')
 def test_extract_recordings(mock_get_plant_data, mock_get_recording_info, mock_get_object_name, mock_open, mock_json_dump):
 
     mock_response = MagicMock()

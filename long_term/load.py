@@ -12,6 +12,10 @@ load_dotenv()
 
 def create_csv(df: pd.DataFrame) -> str:
     """Creates local csv from pandas dataframe."""
+
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("Invalid data, input data must be a pandas dataframe.")
+
     filename = f"summary_{date.today()}.csv"
     df.to_csv(filename, index=False)
 

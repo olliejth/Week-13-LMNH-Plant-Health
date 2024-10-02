@@ -3,7 +3,7 @@
 from os import environ as ENV
 
 import pandas as pd
-import pymssql
+from pymssql import connect
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +12,7 @@ load_dotenv()
 def get_db_connection():
     """Establishes and returns a pymssql connection to the database."""
 
-    connection = pymssql.connect(
+    connection = connect(
         server=ENV['DB_HOST'],
         port=ENV['DB_PORT'],
         user=ENV['DB_USER'],

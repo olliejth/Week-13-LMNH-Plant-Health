@@ -42,7 +42,3 @@ class TestExtractReadings:
 
         self.assertEqual(len(df), 2)
         pd.testing.assert_frame_equal(df, pd.DataFrame(dummy_data))
-
-
-if __name__ == '__main__':
-    unittest.main()

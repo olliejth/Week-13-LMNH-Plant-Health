@@ -4,7 +4,7 @@ from unittest.mock import patch, mock_open
 
 import pytest
 
-from transform import format_tuple, transform_recordings
+from transform_short import format_tuple, transform_recordings
 
 
 @pytest.fixture

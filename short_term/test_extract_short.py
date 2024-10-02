@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from datetime import datetime
 
-from extract import get_object_name, get_plant_data, get_recording_info, extract_recordings
+from extract_short import get_object_name, get_plant_data, get_recording_info, extract_recordings
 
 
 def test_get_object_name():

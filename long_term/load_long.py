@@ -12,6 +12,10 @@ load_dotenv()
 
 def create_csv(df: pd.DataFrame) -> str:
     """Creates local csv from pandas dataframe."""
+
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("Invalid data, input data must be a pandas dataframe.")
+
     filename = f"summary-{date.today()}.csv"
     df.to_csv(filename, index=False)
 
@@ -20,13 +24,15 @@ def create_csv(df: pd.DataFrame) -> str:
 
 def get_s3_client():
     """Returns boto3 s3 client."""
+
     return client(service_name="s3",
                   aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
                   aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
 
 
 def upload_csv(filename, s3_client) -> None:
-    """Uploads csv file by name to S3 bucket."""
+    """Uploads json file by name to S3 bucket."""
+
     bucket = ENV["BUCKET_NAME"]
     upload_filename = f"recordings/{filename}"
 

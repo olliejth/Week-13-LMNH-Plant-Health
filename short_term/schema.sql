@@ -1,15 +1,11 @@
 -- SQL to initialise the database for Microsoft SQL Server.
 
-GRANT SELECT, DELETE, CREATE, ALTER, INSERT, UPDATE 
-ON SCHEMA::beta
-TO beta;
+IF OBJECT_ID('beta.reading', 'U') IS NOT NULL DROP TABLE beta.reading;
+IF OBJECT_ID('beta.plant', 'U') IS NOT NULL DROP TABLE beta.plant;
+IF OBJECT_ID('beta.origin_location', 'U') IS NOT NULL DROP TABLE beta.origin_location;
+IF OBJECT_ID('beta.botanist', 'U') IS NOT NULL DROP TABLE beta.botanist;
 
-IF OBJECT_ID('reading', 'U') IS NOT NULL DROP TABLE reading;
-IF OBJECT_ID('plant', 'U') IS NOT NULL DROP TABLE plant;
-IF OBJECT_ID('origin_location', 'U') IS NOT NULL DROP TABLE origin_location;
-IF OBJECT_ID('botanist', 'U') IS NOT NULL DROP TABLE botanist;
-
-CREATE TABLE botanist (
+CREATE TABLE beta.botanist (
     botanist_id SMALLINT IDENTITY(1,1),
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -18,7 +14,7 @@ CREATE TABLE botanist (
     PRIMARY KEY (botanist_id)
 );
 
-CREATE TABLE origin_location(
+CREATE TABLE beta.origin_location(
     location_id SMALLINT IDENTITY(1,1),
     latitude DECIMAL(11,8) NOT NULL,
     longitude DECIMAL(11,8) NOT NULL,
@@ -28,7 +24,7 @@ CREATE TABLE origin_location(
     CONSTRAINT unique_location_combination UNIQUE (latitude, longitude, town, timezone)
 );
 
-CREATE TABLE plant(
+CREATE TABLE beta.plant(
     plant_id SMALLINT NOT NULL,
     plant_name VARCHAR(255) NOT NULL,
     plant_scientific_name VARCHAR(255) NULL UNIQUE,
@@ -40,10 +36,10 @@ CREATE TABLE plant(
     regular_url VARCHAR(MAX) NULL,
     thumbnail_url VARCHAR(MAX) NULL,
     PRIMARY KEY (plant_id),
-    FOREIGN KEY (origin_location_id) REFERENCES origin_location(location_id)
+    FOREIGN KEY (origin_location_id) REFERENCES beta.origin_location(location_id)
 );
 
-CREATE TABLE reading(
+CREATE TABLE beta.reading(
     reading_id INT IDENTITY(1,1),
     plant_id SMALLINT NOT NULL,
     botanist_id SMALLINT NOT NULL,
@@ -52,8 +48,14 @@ CREATE TABLE reading(
     soil_moisture DECIMAL(5,2) NOT NULL,
     temperature DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (reading_id),
-    FOREIGN KEY (plant_id) REFERENCES plant(plant_id),
-    FOREIGN KEY (botanist_id) REFERENCES botanist(botanist_id),
+    FOREIGN KEY (plant_id) REFERENCES beta.plant(plant_id),
+    FOREIGN KEY (botanist_id) REFERENCES beta.botanist(botanist_id),
     CHECK (at <= SYSDATETIME()),
     CHECK (last_watered <= SYSDATETIME())
 );
+
+INSERT INTO beta.botanist (first_name, last_name, email, phone)
+VALUES
+    ('Gertrude', 'Jekyll', 'gertrude.jekyll@lnhm.co.uk', '001-481-273-3691x127'),
+    ('Carl', 'Linnaeus', 'carl.linnaeus@lnhm.co.uk', '(146)994-1635x35992'),
+    ('Eliza', 'Andrews', 'eliza.andrews@lnhm.co.uk', '(846)669-6651x75948');

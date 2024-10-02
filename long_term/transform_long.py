@@ -47,6 +47,6 @@ def create_summary(df: pd.DataFrame, round_dp: int = 2) -> pd.DataFrame:
     output_data = output_data.iloc[:, [0, 1, 2, 3, 4, 5, 6, 7]]
 
     num_cols = ["min_T", "max_T", "min_M", "max_M", "std_T", "std_M"]
-    output_data = round_numerical_columns(output_data, num_cols, 2)
+    output_data = round_numerical_columns(output_data, num_cols, round_dp)
 
     return output_data

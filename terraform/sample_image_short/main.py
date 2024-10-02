@@ -1,5 +1,5 @@
 """Sample script to run on lambda while ETL pipelines are developed"""
-
+import json
 from os import environ as ENV
 from datetime import datetime
 
@@ -22,12 +22,11 @@ def get_object_names_with_timestamps(client, bucket_name: str) -> list[dict]:
 
 def lambda_handler(event, context):  # pylint: disable=W0613
     """Main handler function for the Lambda."""
-    # Load environment variables if needed (for local testing)
-
-    load_dotenv()
 
     print(f"Started process: {datetime.now()}")
-    bucket_client = boto3.client(service_name="s3")
+    bucket_client = boto3.client(service_name="s3",
+                                 aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
+                                 aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
 
     files = get_object_names_with_timestamps(
         bucket_client, ENV['BUCKET_NAME'])
@@ -40,8 +39,9 @@ def lambda_handler(event, context):  # pylint: disable=W0613
 
     return {
         'statusCode': 200,
+        'body': json.dumps(files)
     }
 
 
 if __name__ == '__main__':
-    lambda_handler({}, {})
+    load_dotenv()

@@ -58,3 +58,6 @@ VALUES
     ('Gertrude', 'Jekyll', 'gertrude.jekyll@lnhm.co.uk', '001-481-273-3691x127'),
     ('Carl', 'Linnaeus', 'carl.linnaeus@lnhm.co.uk', '(146)994-1635x35992'),
     ('Eliza', 'Andrews', 'eliza.andrews@lnhm.co.uk', '(846)669-6651x75948');
+
+INSERT INTO beta.origin_location(latitude, longitude, town, timezone)
+VALUES (0, 0, 'Unknown Location.', '0');

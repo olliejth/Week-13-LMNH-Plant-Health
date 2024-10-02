@@ -24,6 +24,7 @@ def create_csv(df: pd.DataFrame) -> str:
 
 def get_s3_client():
     """Returns boto3 s3 client."""
+
     return client(service_name="s3",
                   aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
                   aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
@@ -31,6 +32,7 @@ def get_s3_client():
 
 def upload_csv(filename, s3_client) -> None:
     """Uploads json file by name to S3 bucket."""
+
     bucket = ENV["BUCKET_NAME"]
     upload_filename = f"recordings/{filename}"
 
@@ -39,7 +41,7 @@ def upload_csv(filename, s3_client) -> None:
 
 def load_recordings(df: pd.DataFrame) -> None:
     """Uploads local csv file to S3 bucket"""
-
+    
     file_name = create_csv(df)
 
     s3 = get_s3_client()

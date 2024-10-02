@@ -1,30 +1,67 @@
 """Given a file name uploads local json file to S3 bucket."""
-from os import environ as ENV
-from dotenv import load_dotenv
-from boto3 import client
+
+from json import loads
+from datetime import datetime
+
+from database_handler import get_connection, get_botanist_ids, get_plant_ids
 
 
-load_dotenv()
+def read_json(file_path: str) -> dict:
+    """Opens a json file and returns a dictionary."""
+    with open(file_path, 'r', encoding='UTF-8') as f:
+        content = f.read()
+    return loads(content)
 
 
-def get_s3_client():
-    """Returns boto3 s3 client."""
-    return client(service_name="s3",
-                  aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
-                  aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
+def convert_at_datetime(date_str: str) -> datetime:
+    """Converts a date string in 'YYYY-MM-DD HH:MM:SS' format to a datetime object."""
+    return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
 
 
-def upload_csv(filename, s3_client) -> None:
-    """Uploads json file by name to S3 bucket."""
-    bucket = ENV["BUCKET_NAME"]
-    upload_filename = f"recordings/{filename}"
-
-    s3_client.upload_file(filename, bucket, upload_filename)
+def convert_last_watered_datetime(date_str: str) -> datetime:
+    """Converts a date string in RFC 1123 format to a datetime object."""
+    return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S GMT')
 
 
-def load_recordings(file_name: str) -> None:
-    """Calls extract and load scripts."""
+def format_reading_tuples(data: dict) -> list[tuple]:
+    """Formats the readings data for database insertion."""
+    readings = []
+    botanist_info = get_botanist_ids()
 
-    s3 = get_s3_client()
+    for reading in data:
+        plant_id = reading['plant_id']
+        botanist_id = botanist_info[reading['botanist_name']]
 
-    upload_csv(file_name, s3)
+        at = convert_at_datetime(reading['at'])
+        soil_moisture = reading['soil_moisture']
+        temperature = reading['temperature']
+        last_watered = convert_last_watered_datetime(reading['last_watered'])
+
+        readings.append((plant_id, botanist_id, at,
+                        soil_moisture, temperature, last_watered))
+    return readings
+
+
+def upload_readings(file_path: str):
+    """Uploads the reading/recording information to the database."""
+    data = read_json(file_path)
+    tuples = format_reading_tuples(data)
+    plant_ids = get_plant_ids()
+    filtered_tuples = [
+        reading for reading in tuples if reading[0] in plant_ids]
+    insert_query = """INSERT INTO beta.reading (plant_id, botanist_id, 
+    at, soil_moisture, temperature, last_watered) VALUES """
+
+    value_placeholders = []
+    values = []
+
+    for reading in filtered_tuples:
+        value_placeholders.append("( %s, %s, %s, %s, %s, %s )")
+        values.extend(reading)  # Flatten the reading tuple
+
+        full_query = insert_query + ", ".join(value_placeholders) + ";"
+
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(full_query, values)
+            conn.commit()

@@ -1,6 +1,6 @@
-"""Full pipleine to extract data from an AWS RDS and uplaod it to an S3 bucket."""
+"""Full pipeline to extract data from an AWS RDS and upload it to an S3 bucket."""
 
-from long_term.load_long import load_recordings
+from load_long import load_recordings
 
 
 def main() -> None:

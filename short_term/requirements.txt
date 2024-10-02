@@ -4,3 +4,5 @@ pymssql
 pandas
 grequests
 requests
+pytest
+pylint

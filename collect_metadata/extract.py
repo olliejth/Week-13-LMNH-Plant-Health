@@ -67,10 +67,13 @@ def extract_plant_data(reading_data: dict) -> dict:
     """Returns the relevant metadata of the plant."""
 
     image_data = reading_data.get("images", {})
+    if image_data is None:
+        image_data = {}
     plant_data = {
         "plant_id": reading_data.get("plant_id"),
         "plant_name": reading_data.get("name"),
         "plant_scientific_name": reading_data.get("scientific_name", [None])[0],
+        "location_name": reading_data.get("origin_location", [None]*3)[2],
         "small_url": image_data.get("small_url"),
         "medium_url": image_data.get("medium_url"),
         "regular_url": image_data.get("regular_url"),

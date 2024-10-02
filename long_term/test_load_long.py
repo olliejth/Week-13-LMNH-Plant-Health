@@ -34,10 +34,8 @@ class TestCreateCSV():
     @patch("pandas.DataFrame.to_csv")
     def test_create_csv_error_on_invlaid_input(self, mock_to_csv):
 
-        mock_df = "string"
-
         with pytest.raises(TypeError) as err:
-            create_csv(mock_df)
+            create_csv("string")
 
         assert err.value.args[0] == "Invalid data, input data must be a pandas dataframe."
 

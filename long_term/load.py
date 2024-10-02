@@ -1,9 +1,9 @@
 """Given a file name uploads local json file to S3 bucket."""
 from os import environ as ENV
 from datetime import date
+
 from dotenv import load_dotenv
 from boto3 import client
-
 import pandas as pd
 
 
@@ -41,14 +41,3 @@ def load_recordings(df: pd.DataFrame) -> None:
     s3 = get_s3_client()
 
     upload_csv(file_name, s3)
-
-
-if __name__ == "__main__":
-
-    cols = ["id", "name", "min_t", "max_t", "min_m",
-            "max_m", "times_watered", "std_t", "std_m"]
-    data = [('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x')]
-
-    my_df = pd.DataFrame(data, columns=cols)
-
-    load_recordings(my_df)

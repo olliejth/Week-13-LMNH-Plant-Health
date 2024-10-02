@@ -20,6 +20,9 @@ def get_object_name() -> str:
 
 def chunk_data(data: list, num_chunks: int) -> list:
     """Splits data into a specified number of chunks."""
+    if not data:
+        return []
+
     chunk_size = len(data) // num_chunks + \
         (len(data) % num_chunks > 0)
     return [data[i:i + chunk_size] for i in range(0, len(data), chunk_size)]

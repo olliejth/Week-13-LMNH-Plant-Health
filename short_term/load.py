@@ -49,13 +49,19 @@ def upload_readings(file_path: str):
     plant_ids = get_plant_ids()
     filtered_tuples = [
         reading for reading in tuples if reading[0] in plant_ids]
-    insert_query = """INSERT INTO beta.reading(plant_id, botanist_id, 
-    at, soil_moisture, temperature, last_watered)
-    VALUES (%s, %s, %s, %s, %s, %s)"""
+    insert_query = """INSERT INTO beta.reading (plant_id, botanist_id, 
+    at, soil_moisture, temperature, last_watered) VALUES """
 
-    with get_connection() as conn:
-        cursor = conn.cursor()
+    value_placeholders = []
+    values = []
 
-        for reading in filtered_tuples:
-            cursor.execute(insert_query, reading)
+    for reading in filtered_tuples:
+        value_placeholders.append("( %s, %s, %s, %s, %s, %s )")
+        values.extend(reading)  # Flatten the reading tuple
+
+        full_query = insert_query + ", ".join(value_placeholders) + ";"
+
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(full_query, values)
             conn.commit()

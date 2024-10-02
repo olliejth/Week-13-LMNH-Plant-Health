@@ -34,6 +34,14 @@ def test_format_tuple(mock_botanist_details):
     assert result == expected_output
 
 
+@patch.dict('os.environ', {
+    'DB_HOST': 'dummy_host',
+    'DB_PORT': 'dummy_port',
+    'DB_USER': 'dummy_user',
+    'DB_PASSWORD': 'dummy_password',
+    'DB_NAME': 'dummy_db',
+    'SCHEMA_NAME': 'dummy_schema'
+})
 @patch('builtins.open', new_callable=mock_open, read_data='''[
     {
         "plant_id": 1,

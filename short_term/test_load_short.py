@@ -74,7 +74,7 @@ def test_upload_readings(mock_get_plant_ids, mock_get_connection):
 
     upload_readings(tuples)
 
-    assert mock_cursor.execute.call_count == 2
+    assert mock_cursor.execute.call_count == 1
 
     expected_query = """INSERT INTO beta.reading (plant_id, botanist_id,
     at, soil_moisture, temperature, last_watered) VALUES ( %s, %s, %s, %s, %s, %s )"""

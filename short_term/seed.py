@@ -91,3 +91,7 @@ def seed_all():
     download_metadata()
     upload_locations()
     upload_plants()
+
+
+if __name__ == "__main__":
+    seed_all()

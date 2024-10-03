@@ -18,6 +18,8 @@ if __name__ == "__main__":
     if len(selected_plants) > 0:
         plants_df = plants_df[plants_df["plant_id"].isin(selected_plants)]
 
+    plants_df = plants_df[plants_df["temperature"] < 45]
+
     botanist_plants_pie = create_botanist_pie(plants_df)
     temp_bar_chart = create_temperature_bar(plants_df)
     temp_line_chart = create_temperature_line(plants_df)

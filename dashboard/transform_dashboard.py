@@ -73,13 +73,12 @@ def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
     two_hours_ago = df['at'].max() - pd.Timedelta(hours=2)
 
     df_filtered = df[df['at'] >= two_hours_ago]
-    df_filtered = df_filtered[df_filtered['temperature'] < 45]
 
     title = alt.TitleParams(
         'Plant temperature fluctuation over time', anchor='middle')
     temp_line_chart = alt.Chart(df_filtered, title=title).mark_line().encode(
         x='at:T',
-        y=alt.Y('temperature:Q'),
+        y=alt.Y('temperature:Q').scale(zero=False),
         color='plant_id:N'
     )
 

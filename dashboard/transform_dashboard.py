@@ -69,7 +69,7 @@ def create_temperature_bar(df: pd.DataFrame) -> alt.Chart:
 def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
     """Creates line chart of plants' temperature over time."""
 
-    df['at'] = pd.to_datetime(df['at'])
+    df['at'] = pd.to_datetime(df['at']).dt.round('min')
 
     three_hours_ago = df['at'].max() - pd.Timedelta(hours=3)
 

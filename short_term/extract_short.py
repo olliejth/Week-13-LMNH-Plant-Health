@@ -1,7 +1,6 @@
 """Extract plant recording data"""
 
 from datetime import datetime
-import json
 import time
 
 from async_api_call import get_plant_data

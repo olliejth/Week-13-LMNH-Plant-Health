@@ -1,5 +1,3 @@
-# pylint: disable:R0801
-
 """Given a file name uploads local json file to RDS."""
 
 from json import loads

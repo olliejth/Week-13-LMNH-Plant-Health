@@ -56,7 +56,7 @@ def extract_recordings() -> list[dict]:
     The main function to be called from the pipeline."""
 
     plant_ids = list(range(1, 50 + 1))
-    print(f"Calling API")
+    print("Calling API")
     start_time = time.time()
     api_data = get_plant_data(plant_ids)
     end_time = time.time()

@@ -33,8 +33,17 @@ This project is focused on creating an **automated data analysis pipeline** to a
 
 ---
 
+#### 📂 Architecture Diagram
+![Architecture Diagram](architecture_diagram.png)
+
+---
+
 ## 📊 Interactive Dashboard
 
 - **Pulls real-time and historical data** from the RDS instance.
 - Provides **insights into plant health metrics** over time.
 - Offers **visualisation tools** to help monitor trends and detect early signs of potential problems.
+
+#### 🗺️ Database Schema
+![Database Schema](schema.png)
+

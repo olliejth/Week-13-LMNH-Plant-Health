@@ -33,8 +33,8 @@ ECR_LONG_TERM_REPO_NAME=XXXXX
 IMAGE_LONG_TERM_NAME_PIPELINE=XXXXX
 ```
 
-1. Create a python environment and run `pip install -r requirements.txt`.
-2. Build the Docker image, and upload to AWS ECR as an ECS.
+1. Run the command `bash dockerise.sh`.
+
 
 
 ## 📄 Files Explained

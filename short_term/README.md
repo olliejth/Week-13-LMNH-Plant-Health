@@ -27,4 +27,4 @@ BUCKET_NAME=XXXXXX
 1. Run `bash create_db.sh` to initialise the database schema.
 2. Create a python environment and run `pip install -r requirements.txt`.
 3. Run `python3 seed.py` to seed the database with initial metadata about plants, botanists, and locations.
-4. Build the Docker image, and upload to AWS ECR as a lambda.
+4. Run `bash dockerise.sh` to Dockerise and upload the container to the ECR repo.

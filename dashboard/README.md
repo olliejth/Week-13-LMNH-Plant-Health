@@ -27,10 +27,15 @@ AWS_ACCESS_KEY=XXXXX
 AWS_SECRET_ACCESS_KEY=XXXXX
 BUCKET_NAME=XXXXX
 DASHBOARD_CONTAINER=XXXXX
+EC2_HOST=XXXXX
+KEY_PATH=../terraform/c13-rvbyaulf-lmnh-key-pair.pem
 ```
+`EC2_HOST` is the public IPV4 DNS of the EC2 instance.
+The `pemkey` gets generated after running the Terraform files.
 
-1. Create a python environment and run `pip install -r requirements.txt`.
-2. Build the Docker image, 
+1. Run `bash upload_dashboard.sh`.
+2. Access the dashboard via the EC2 public DNS or private IP followed by :8501 e.g:
+ec2-18-171-163-71.eu-west-2.compute.amazonaws.com:8501
 
 
 ## 📄 Files Explained

@@ -1,8 +1,8 @@
 """Extract plant recording data"""
 
-import multiprocessing
 from datetime import datetime
 import json
+import time
 
 from async_api_call import get_plant_data
 
@@ -57,14 +57,12 @@ def extract_recordings() -> str:
     The main function to be called from the pipeline."""
 
     plant_ids = list(range(1, 50 + 1))
-    num_chunks = multiprocessing.cpu_count()
-    print(f"using {num_chunks} parallel threads")
-    plant_id_chunks = chunk_data(plant_ids, num_chunks)
-
-    with multiprocessing.Pool() as pool:
-        results = pool.map(get_plant_data, plant_id_chunks)
-
-    api_data = [item for sublist in results for item in sublist]
+    print(f"Calling API")
+    start_time = time.time()
+    api_data = get_plant_data(plant_ids)
+    end_time = time.time()
+    duration = end_time - start_time
+    print(f"Received API data in {duration:.2f} seconds")
 
     plant_data = []
     for element in api_data:

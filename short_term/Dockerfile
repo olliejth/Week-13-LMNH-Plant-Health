@@ -10,9 +10,10 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copies working files.
-COPY extract.py .
-COPY transform.py .
-COPY load.py .
+COPY async_api_call.py .
+COPY extract_short.py .
+COPY transform_short.py .
+COPY load_short.py .
 COPY pipeline.py .
 COPY database_handler.py .
 

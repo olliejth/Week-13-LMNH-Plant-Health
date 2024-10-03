@@ -64,13 +64,13 @@ def test_get_recording_info(reading_data, expected):
     assert get_recording_info(reading_data) == expected
 
 
-@patch('json.dump')
-@patch('builtins.open', new_callable=MagicMock)
-@patch('extract_short.get_object_name')
-@patch('extract_short.get_recording_info')
 @patch('extract_short.get_plant_data')
-@patch('multiprocessing.Pool')
-def test_extract_recordings(mock_pool, mock_get_plant_data, mock_get_recording_info, mock_get_object_name, mock_open, mock_json_dump):
+@patch('extract_short.get_recording_info')
+@patch('time.time')
+def test_extract_recordings(mock_time, mock_get_recording_info, mock_get_plant_data):
+
+    mock_time.side_effect = [100.0, 119.77]
+
     mock_response = MagicMock()
     mock_response.json.return_value = {
         "plant_id": 1,
@@ -90,13 +90,13 @@ def test_extract_recordings(mock_pool, mock_get_plant_data, mock_get_recording_i
         "last_watered": "2024-10-01"
     }
 
-    mock_get_object_name.return_value = "recording-2024-10-02-15-30.json"
+    plant_data = extract_recordings()
 
-    mock_pool.return_value.__enter__.return_value.map.return_value = [
-        [mock_response]]
+    assert len(plant_data) == 1
+    assert plant_data[0]["plant_id"] == 1
+    assert plant_data[0]["botanist_name"] == "Jane Doe"
+    assert plant_data[0]["soil_moisture"] == 25.5
+    assert plant_data[0]["temperature"] == 22.3
 
-    object_name = extract_recordings()
-
-    assert object_name == "recording-2024-10-02-15-30.json"
-    mock_open.assert_called_once_with(object_name, "w", encoding='UTF-8')
-    mock_json_dump.assert_called_once()
+    mock_get_plant_data.assert_called_once_with(list(range(1, 51)))
+    mock_time.assert_called()

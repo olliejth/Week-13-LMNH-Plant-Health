@@ -30,6 +30,35 @@ def get_s3_client():
                   aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
 
 
+def get_ses_clent():
+    """Returns boto3 ses client."""
+
+    return client(service_name="ses", region_name='eu-west-2',
+                  aws_access_key_id=ENV["AWS_rvbyaulf_KEY"],
+                  aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
+
+
+def send_email(ses_client: client, to_email: str, from_email: str):
+    """Sends a notification email to the recipient indicating
+    that the long-term pipeline has been carried out."""
+    ses_client.send_email(
+        Source=from_email,
+        Destination={
+            'ToAddresses': [to_email]
+        },
+        Message={
+            'Subject': {
+                'Data': "Archived plant readings to S3."
+            },
+            'Body': {
+                'Text': {
+                    'Data': "Successfully uploaded .csv summary to the S3 bucket."
+                }
+            }
+        }
+    )
+
+
 def upload_csv(filename, s3_client) -> None:
     """Uploads json file by name to S3 bucket."""
 
@@ -45,5 +74,7 @@ def load_recordings(df: pd.DataFrame) -> None:
     file_name = create_csv(df)
 
     s3 = get_s3_client()
+    ses = get_ses_clent()
 
     upload_csv(file_name, s3)
+    send_email(ses, ENV['EMAIL_RECIPIENT'], ENV['EMAIL_SENDER'])

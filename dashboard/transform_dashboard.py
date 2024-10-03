@@ -5,7 +5,6 @@ from os import environ as ENV
 from dotenv import load_dotenv
 import pandas as pd
 import altair as alt
-from datetime import datetime, timedelta
 
 from extract_dashboard import get_db_connection
 

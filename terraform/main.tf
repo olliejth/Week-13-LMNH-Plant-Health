@@ -327,3 +327,88 @@ resource "aws_scheduler_schedule" "long_term_etl_schedule" {
         }
     }
 }
+
+# =========================== LMNH Plant Dashboard ===========================
+
+resource "tls_private_key" "private_key" {
+    algorithm = "RSA"
+    rsa_bits = 4096
+}
+
+resource "local_file" "private_key_file" {
+    content  = tls_private_key.private_key.private_key_pem
+    filename = "${path.module}/c13-rvbyaulf-lmnh-key-pair.pem"
+}
+
+resource "aws_key_pair" "key_pair" {
+    key_name = "c13-rvbyaulf-lmnh-key-pair"
+    public_key = tls_private_key.private_key.public_key_openssh
+}
+
+resource "aws_security_group" "ec2-sg" {
+    name = "c13-rvbyaulf-ec2-security-group"
+    vpc_id = data.aws_vpc.c13-vpc.id
+    ingress = [
+        {
+            from_port = 22
+            to_port = 22
+            protocol = "TCP"
+            cidr_blocks = ["0.0.0.0/0"]
+            description = "Allow ssh"
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        },
+        {
+            from_port   = 8501
+            to_port     = 8501
+            protocol    = "tcp"
+            cidr_blocks = ["0.0.0.0/0"]
+            description = "Allow streamlit"
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        },
+        {
+            from_port   = 80
+            to_port     = 80
+            protocol    = "tcp"
+            cidr_blocks = ["0.0.0.0/0"]
+            description = "Allow connection"
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        }
+    ]
+    egress = [
+        {   
+            from_port = 0
+            to_port = 0
+            protocol = "-1"
+            cidr_blocks = ["0.0.0.0/0"]
+            description = "Allow all outbound"
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        }
+    ]
+}
+
+resource "aws_instance" "pipeline_ec2" {
+    instance_type = "t3.nano"
+    tags = {Name: "c13-rvbyaulf-lmnh-plant-dashboard"}
+    security_groups = [aws_security_group.ec2-sg.id]
+    subnet_id = data.aws_subnet.c13-public-subnet.id
+    associate_public_ip_address = true
+    ami = "ami-0c0493bbac867d427"
+    key_name = aws_key_pair.key_pair.key_name
+    user_data = <<-EOF
+              #!/bin/bash
+              sudo yum update -y
+              sudo yum install -y python3
+              EOF
+}

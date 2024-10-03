@@ -1,4 +1,5 @@
 pandas
+boto3
 altair
 pymssql
 python-dotenv

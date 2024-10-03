@@ -10,6 +10,8 @@ RUN pip install -r requirements.txt
 # Copies working files.
 COPY extract_dashboard.py .
 COPY transform_dashboard.py .
+COPY longterm_extract.py .
+COPY longterm_transform.py .
 COPY load_dashboard.py .
 
 # Runs pipeline

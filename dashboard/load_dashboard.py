@@ -15,10 +15,13 @@ if __name__ == "__main__":
     plant_ids = plants_df["plant_id"].unique().tolist()
     selected_plants = st.sidebar.multiselect("Plant IDs", options=plant_ids)
 
+    if len(selected_plants) > 0:
+        plants_df = plants_df[plants_df["plant_id"].isin(selected_plants)]
+
     botanist_plants_pie = create_botanist_pie(plants_df)
-    temp_bar_chart = create_temperature_bar(plants_df, selected_plants)
-    temp_line_chart = create_temperature_line(plants_df, selected_plants)
-    moist_bar_chart = create_moisture_bar(plants_df, selected_plants)
+    temp_bar_chart = create_temperature_bar(plants_df)
+    temp_line_chart = create_temperature_line(plants_df)
+    moist_bar_chart = create_moisture_bar(plants_df)
 
     st.altair_chart(botanist_plants_pie, use_container_width=True)
     st.altair_chart(temp_bar_chart, use_container_width=True)

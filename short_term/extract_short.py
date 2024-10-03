@@ -4,8 +4,6 @@ import multiprocessing
 from datetime import datetime
 import json
 
-import requests as req
-
 from async_api_call import get_plant_data
 
 
@@ -29,14 +27,6 @@ def chunk_data(data: list, num_chunks: int) -> list:
     chunk_size = len(data) // num_chunks + \
         (len(data) % num_chunks > 0)
     return [data[i:i + chunk_size] for i in range(0, len(data), chunk_size)]
-
-
-def get_plant_data(plant_ids: list) -> list[dict]:
-    """Makes the API calls for a given list of plant IDs and returns the raw JSON files."""
-    # implement ASYNC here using grequests
-    results = [req.get(BASE_URL + str(plant_id), timeout=10)
-               for plant_id in plant_ids]
-    return [res.json() for res in results]
 
 
 def get_recording_info(reading_data: dict) -> dict:

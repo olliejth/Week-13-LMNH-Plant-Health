@@ -5,7 +5,6 @@ from os import environ as ENV
 from dotenv import load_dotenv
 import pandas as pd
 import altair as alt
-from datetime import datetime, timedelta
 
 from extract_dashboard import get_db_connection
 
@@ -71,9 +70,9 @@ def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
 
     df['at'] = pd.to_datetime(df['at']).dt.round('min')
 
-    three_hours_ago = df['at'].max() - pd.Timedelta(hours=3)
+    two_hours_ago = df['at'].max() - pd.Timedelta(hours=2)
 
-    df_filtered = df[df['at'] >= three_hours_ago]
+    df_filtered = df[df['at'] >= two_hours_ago]
 
     title = alt.TitleParams('Plant temperature over time', anchor='middle')
     temp_line_chart = alt.Chart(df_filtered, title=title).mark_line().encode(

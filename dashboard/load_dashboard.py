@@ -11,14 +11,14 @@ if __name__ == "__main__":
 
     plants_df = extract_readings()
 
+    st.sidebar.markdown("# Sidebar")
+    plant_ids = plants_df["plant_id"].unique().tolist()
+    st.sidebar.multiselect("Plant IDs", options=plant_ids)
+
     botanist_plants_pie = create_botanist_pie(plants_df)
     temp_bar_chart = create_temperature_bar(plants_df)
     temp_line_chart = create_temperature_line(plants_df)
     moist_bar_chart = create_moisture_bar(plants_df)
-
-    st.sidebar.markdown("# Sidebar")
-    plant_ids = plants_df["plant_id"].unique().tolist()
-    st.sidebar.multiselect("Plant IDs", options=plant_ids)
 
     st.altair_chart(botanist_plants_pie, use_container_width=True)
     st.altair_chart(temp_bar_chart, use_container_width=True)

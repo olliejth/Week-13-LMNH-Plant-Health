@@ -6,6 +6,10 @@ LNMH has an array of sensors setup to monitor the health of a plant but they are
 
 # Project Aims
 
+This project aims to build a robust pipeline to form an automated data analysis pipeline for the botanical gardens in the LMNH.
+
+An interactive dashboard will be provided to offer insights into plant healtha over many key metrics over time.
+
 # Technical Overview
 
 ## Short term pipeline (AWS Lambda - Runs minutely)

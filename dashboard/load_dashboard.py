@@ -12,6 +12,8 @@ from longterm_transform import concat_csvs, get_times_watered, get_max_temp_per_
 
 if __name__ == "__main__":
 
+    # SHORT TERM VISUALISATIONS
+
     plants_df = extract_readings()
 
     st.sidebar.markdown("# Sidebar")

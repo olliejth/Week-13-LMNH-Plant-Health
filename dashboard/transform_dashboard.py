@@ -14,6 +14,7 @@ load_dotenv()
 
 
 def get_botanist_mapping():
+    """Creates dictionary of botanist names and ids."""
 
     with get_db_connection() as conn:
 

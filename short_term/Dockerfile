@@ -11,8 +11,10 @@ RUN pip install -r requirements.txt
 
 # Copies working files.
 COPY extract.py .
+COPY transform.py .
 COPY load.py .
 COPY pipeline.py .
+COPY database_handler.py .
 
 # Runs pipeline
 CMD ["pipeline.lambda_handler"]

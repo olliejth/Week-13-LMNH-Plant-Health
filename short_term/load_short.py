@@ -1,9 +1,11 @@
-"""Given a file name uploads local json file to S3 bucket."""
+# pylint: disable:R0801
+
+"""Given a file name uploads local json file to RDS."""
 
 from json import loads
 from datetime import datetime
 
-from database_handler import get_connection, get_botanist_ids, get_plant_ids
+from database_handler import get_connection, get_plant_ids
 
 
 def read_json(file_path: str) -> dict:
@@ -23,33 +25,30 @@ def convert_last_watered_datetime(date_str: str) -> datetime:
     return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S GMT')
 
 
-def format_reading_tuples(data: dict) -> list[tuple]:
+def format_reading_tuples(data: list[tuple]) -> list[tuple]:
     """Formats the readings data for database insertion."""
     readings = []
-    botanist_info = get_botanist_ids()
 
     for reading in data:
-        plant_id = reading['plant_id']
-        botanist_id = botanist_info[reading['botanist_name']]
+        plant_id, botanist_id, at, soil_moisture, temperature, last_watered = reading
 
-        at = convert_at_datetime(reading['at'])
-        soil_moisture = reading['soil_moisture']
-        temperature = reading['temperature']
-        last_watered = convert_last_watered_datetime(reading['last_watered'])
+        at = convert_at_datetime(at)
+        last_watered = convert_last_watered_datetime(last_watered)
 
         readings.append((plant_id, botanist_id, at,
                         soil_moisture, temperature, last_watered))
+
     return readings
 
 
-def upload_readings(file_path: str):
+def upload_readings(tuples: list[tuple]):
     """Uploads the reading/recording information to the database."""
-    data = read_json(file_path)
-    tuples = format_reading_tuples(data)
+    tuples = format_reading_tuples(tuples)
+
     plant_ids = get_plant_ids()
     filtered_tuples = [
         reading for reading in tuples if reading[0] in plant_ids]
-    insert_query = """INSERT INTO beta.reading (plant_id, botanist_id, 
+    insert_query = """INSERT INTO beta.reading (plant_id, botanist_id,
     at, soil_moisture, temperature, last_watered) VALUES """
 
     value_placeholders = []

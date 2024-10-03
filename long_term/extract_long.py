@@ -29,7 +29,8 @@ def extract_readings():
     with get_db_connection() as connection:
 
         query = f'''
-        SELECT plant_id, at, last_watered, soil_moisture, temperature FROM {ENV['SCHEMA_NAME']}.reading
+        SELECT plant_id, at, last_watered, soil_moisture, 
+        temperature FROM {ENV['SCHEMA_NAME']}.reading
         WHERE at BETWEEN DATEADD(hour, -48, SYSDATETIME()) AND DATEADD(hour, -24, SYSDATETIME())
         '''
 

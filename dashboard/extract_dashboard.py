@@ -30,7 +30,8 @@ def extract_readings():
         schema_name = ENV['SCHEMA_NAME']
 
         query = f'''
-        SELECT plant_id, botanist_id, at, last_watered, soil_moisture, temperature FROM {schema_name}.reading
+        SELECT plant_id, botanist_id, at, last_watered,
+          soil_moisture, temperature FROM {schema_name}.reading
         '''
 
         df = pd.read_sql(query, connection)

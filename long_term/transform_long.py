@@ -1,7 +1,5 @@
 """Transform the files from the short term database into a csv with all of the summary info."""
 
-from datetime import datetime
-
 import pandas as pd
 
 

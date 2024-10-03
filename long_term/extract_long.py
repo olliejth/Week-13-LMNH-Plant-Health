@@ -30,7 +30,7 @@ def extract_readings():
 
         query = f'''
         SELECT plant_id, at, last_watered, soil_moisture, temperature FROM {ENV['SCHEMA_NAME']}.reading
-        WHERE at BETWEEN DATEADD(hour, -48, SYSDATETIME()) AND DATEADD(hour, -0, SYSDATETIME())
+        WHERE at BETWEEN DATEADD(hour, -48, SYSDATETIME()) AND DATEADD(hour, -24, SYSDATETIME())
         '''
 
         df = pd.read_sql(query, connection)

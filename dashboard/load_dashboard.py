@@ -1,5 +1,7 @@
 """Loads visualisations to constantly running dashboard."""
 
+from datetime import date
+
 import streamlit as st
 
 from extract_dashboard import extract_readings
@@ -15,7 +17,7 @@ if __name__ == "__main__":
 
     plants_df = extract_readings()
 
-    st.sidebar.markdown("# Sidebar")
+    st.sidebar.markdown("# Filter Plant IDs:")
     plant_ids = plants_df["plant_id"].unique().tolist()
     selected_plants = st.sidebar.multiselect("Plant IDs", options=plant_ids)
 
@@ -27,6 +29,11 @@ if __name__ == "__main__":
     temp_line_chart = create_temperature_line(plants_df)
     moist_bar_chart = create_moisture_bar(plants_df)
 
+    st.title(":herb: Plant Monitoring Dashboard :herb:")
+
+    st.header(
+        f":seedling: :green[Daily analytics ({date.today()})] :seedling:")
+
     st.altair_chart(botanist_plants_pie, use_container_width=True)
     st.altair_chart(temp_bar_chart, use_container_width=True)
     st.altair_chart(temp_line_chart, use_container_width=True)
@@ -34,7 +41,13 @@ if __name__ == "__main__":
 
     # LONG TERM VISUALISATIONS:
 
+    st.header(":seedling: :green[Long-term analytics] :seedling:")
+
     longterm_df = concat_csvs(extract_s3_files())
+
+    if len(selected_plants) > 0:
+        longterm_df = longterm_df[longterm_df["plant_id"].isin(
+            selected_plants)]
 
     water_count_bar = get_times_watered(longterm_df)
     max_temp_bar = get_max_temp_per_plant(longterm_df)
@@ -43,3 +56,5 @@ if __name__ == "__main__":
     st.altair_chart(water_count_bar, use_container_width=True)
     st.altair_chart(max_temp_bar, use_container_width=True)
     st.altair_chart(min_moist_br, use_container_width=True)
+
+    # st.title(":orangutan:" * 15)

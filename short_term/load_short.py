@@ -25,6 +25,12 @@ def convert_last_watered_datetime(date_str: str) -> datetime:
     return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S GMT')
 
 
+def is_valid_tuple(plant_tuple: tuple) -> bool:
+    """Rejects tuples with invalid moisture or temperature values."""
+    _, _, _, moisture, temperature, _ = plant_tuple
+    return moisture > 0 and temperature > 0
+
+
 def format_reading_tuples(data: list[tuple]) -> list[tuple]:
     """Formats the readings data for database insertion."""
     readings = []
@@ -34,9 +40,11 @@ def format_reading_tuples(data: list[tuple]) -> list[tuple]:
 
         at = convert_at_datetime(at)
         last_watered = convert_last_watered_datetime(last_watered)
+        plant_tuple = (plant_id, botanist_id, at,
+                       soil_moisture, temperature, last_watered)
 
-        readings.append((plant_id, botanist_id, at,
-                        soil_moisture, temperature, last_watered))
+        if is_valid_tuple(plant_tuple):
+            readings.append(plant_tuple)
 
     return readings
 

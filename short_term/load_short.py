@@ -28,7 +28,7 @@ def convert_last_watered_datetime(date_str: str) -> datetime:
 def is_valid_tuple(plant_tuple: tuple) -> bool:
     """Rejects tuples with invalid moisture or temperature values."""
     _, _, _, moisture, temperature, _ = plant_tuple
-    return moisture > 0 and temperature > 0
+    return float(moisture) > 0 and float(temperature) > 0
 
 
 def format_reading_tuples(data: list[tuple]) -> list[tuple]:

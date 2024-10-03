@@ -32,10 +32,10 @@ def test_convert_last_watered_datetime(date_str, expected):
 @patch('load_short.convert_last_watered_datetime')
 def test_format_reading_tuples_output_types(mock_convert_last_watered_datetime, mock_convert_at_datetime):
     data = [
-        (1, 101, "2024-10-01 12:30:45", 30.5,
-         22.5, "Mon, 01 Oct 2024 12:30:45 GMT"),
-        (2, 102, "2024-10-02 11:30:45", 25.0,
-         21.0, "Sun, 30 Sep 2024 12:30:45 GMT"),
+        (1, 101, "2024-10-01 12:30:45", "30.5",
+         "22.5", "Mon, 01 Oct 2024 12:30:45 GMT"),
+        (2, 102, "2024-10-02 11:30:45", "25.0",
+         "21.0", "Sun, 30 Sep 2024 12:30:45 GMT"),
     ]
 
     mock_convert_at_datetime.return_value = datetime(2024, 10, 1, 12, 30, 45)
@@ -64,11 +64,11 @@ def test_upload_readings(mock_get_plant_ids, mock_get_connection):
     mock_connection.cursor.return_value = mock_cursor
 
     tuples = [
-        (1, 101, "2024-10-01 12:30:45", 30.5,
-         22.5, "Mon, 01 Oct 2024 12:30:45 GMT"),
-        (2, 102, "2024-10-02 11:30:45", 25.0,
-         21.0, "Sun, 30 Sep 2024 12:30:45 GMT"),
-        (3, 103, "2024-10-03 10:30:45", 40.0, 24.0,
+        (1, 101, "2024-10-01 12:30:45", "30.5",
+         "22.5", "Mon, 01 Oct 2024 12:30:45 GMT"),
+        (2, 102, "2024-10-02 11:30:45", "25.0",
+         "21.0", "Sun, 30 Sep 2024 12:30:45 GMT"),
+        (3, 103, "2024-10-03 10:30:45", "40.0", "24.0",
          "Sat, 29 Sep 2024 12:30:45 GMT"),
     ]
 

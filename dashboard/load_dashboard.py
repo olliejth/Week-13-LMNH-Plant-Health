@@ -15,14 +15,14 @@ if __name__ == "__main__":
     temp_line_chart = create_temperature_line(plants_df)
     moist_bar_chart = create_moisture_bar(plants_df)
 
+    plant_ids = plants_df["plant_id"].unique().tolist()
+    st.sidebar.markdown("# Sidebar")
+    st.sidebar.multiselect("Trucks", options=plant_ids)
+
     st.altair_chart(botanist_plants_pie, use_container_width=True)
     st.altair_chart(temp_bar_chart, use_container_width=True)
     st.altair_chart(temp_line_chart, use_container_width=True)
     st.altair_chart(moist_bar_chart, use_container_width=True)
-
-
-#   st.sidebar.markdown("# Sidebar")
-#   st.sidebar.multiselect("Trucks", options=[1, 2, 3, 4, 5, 6])
 
 
 # cols = st.columns(2)

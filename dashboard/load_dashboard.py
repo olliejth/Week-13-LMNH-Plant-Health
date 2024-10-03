@@ -4,7 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from extract_dashboard import extract_readings
-from transform_dashboard import create_botanist_pie, create_temperature_bar, create_moisture_bar, create_temperature_line
+from transform_dashboard import create_botanist_pie, create_temperature_bar
+from transform_dashboard import create_moisture_bar, create_temperature_line
 
 if __name__ == "__main__":
 

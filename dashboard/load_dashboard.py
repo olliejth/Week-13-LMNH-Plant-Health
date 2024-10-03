@@ -13,7 +13,10 @@ if __name__ == "__main__":
 
     st.sidebar.markdown("# Sidebar")
     plant_ids = plants_df["plant_id"].unique().tolist()
-    st.sidebar.multiselect("Plant IDs", options=plant_ids)
+    selected_plants = st.sidebar.multiselect("Plant IDs", options=plant_ids)
+
+    if len(selected_plants) > 0:
+        plants_df = plants_df[plants_df["plant_id"].isin(selected_plants)]
 
     botanist_plants_pie = create_botanist_pie(plants_df)
     temp_bar_chart = create_temperature_bar(plants_df)

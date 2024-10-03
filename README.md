@@ -1,25 +1,40 @@
-# Week-13-LMNH-Plant-Health
+# 🌿 Week 13: LMNH Plant Health
 
-# Project Overview
+## 📝 Project Overview
 
-LNMH has an array of sensors setup to monitor the health of a plant but they are currently only configured with a single, simple API endpoint that reports the current health of a plant. The museum wants to be able to monitor the health of the plants over time and to be able to alert the gardeners when there is a problem. They will need to store the data in long term storage and be able to query the data to create visualisations and alerts.
+The **LMNH (Liverpool Museum of Natural History)** has deployed an array of sensors to monitor plant health. Currently, the system is equipped with a single API endpoint that reports the **current health** of a plant. However, the museum aims to track the **long-term health** of plants and send alerts to gardeners when issues arise.
 
-# Project Aims
+To achieve this, the museum needs:
+- **Long-term data storage**
+- **Data visualisation**
+- **Automated alerting system** for plant health monitoring
 
-This project aims to build a robust pipeline to form an automated data analysis pipeline for the botanical gardens in the LMNH.
+---
 
-An interactive dashboard will be provided to offer insights into plant healtha over many key metrics over time.
+## 🎯 Project Aims
 
-# Technical Overview
+This project is focused on creating an **automated data analysis pipeline** to assist the botanical gardens of LMNH. The core deliverables include:
 
-## Short term pipeline (AWS Lambda - Runs minutely)
-1. Asyncronously queries plant API endpoints.
-2. Uploads plant readings to a Microsoft SQL server RDS instance.
+- **Data Pipeline**: A seamless system that collects, stores, and processes plant health data.
+- **Insights Dashboard**: An interactive dashboard providing visual insights into plant health over time, across various key metrics.
 
-## Long term pipeline (AWS Lambda - Runs daily)
-1. Queries the past day's data from the RDS instance.
-2. Analyses and processes the data, collecting key statistical metrics.
-3. Uploads these metrics to an S3 data for long-term archived storage.
+---
 
-## Interactive Dashboard
-- Pulls data from the RDS instance to provide key insights into plant health metrics.
+## 🛠️ Technical Overview
+
+### ⚡ Short-term Pipeline (AWS Lambda - Runs Minutely)
+- 🌐 **API Interaction**: Asynchronously queries the plant API endpoints for real-time data.
+- 💾 **Data Storage**: Uploads plant health readings to an **MS SQL Server (RDS)** instance.
+
+### 📊 Long-term Pipeline (AWS Lambda - Runs Daily)
+- ⏳ **Historical Data Processing**: Fetches the past day's data from the RDS instance.
+- 📈 **Data Analysis**: Processes and calculates key statistical metrics from the gathered data.
+- 🗃️ **Archival**: Uploads the analysed metrics to an **S3 bucket** for long-term storage and archiving.
+
+---
+
+## 📊 Interactive Dashboard
+
+- **Pulls real-time and historical data** from the RDS instance.
+- Provides **insights into plant health metrics** over time.
+- Offers **visualisation tools** to help monitor trends and detect early signs of potential problems.

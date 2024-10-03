@@ -49,10 +49,13 @@ def create_botanist_pie(df: pd.DataFrame) -> alt.Chart:
     return botanist_pie_chart
 
 
-def create_temperature_bar(df: pd.DataFrame) -> alt.Chart:
+def create_temperature_bar(df: pd.DataFrame, plant_ids: list[int] = []) -> alt.Chart:
     """Creates bar chart of plants against their most recently recorded temperature."""
 
     df['at'] = pd.to_datetime(df['at'])
+
+    if len(plant_ids) > 0:
+        df = df[df["plant_id"].isin(plant_ids)]
 
     recent_df = df.loc[df.groupby('plant_id')['at'].idxmax()]
 
@@ -65,10 +68,13 @@ def create_temperature_bar(df: pd.DataFrame) -> alt.Chart:
     return temp_bar_chart
 
 
-def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
+def create_temperature_line(df: pd.DataFrame, plant_ids: list[int] = []) -> alt.Chart:
     """Creates line chart of plants' temperature over time."""
 
     df['at'] = pd.to_datetime(df['at']).dt.round('min')
+
+    if len(plant_ids) > 0:
+        df = df[df["plant_id"].isin(plant_ids)]
 
     two_hours_ago = df['at'].max() - pd.Timedelta(hours=2)
 
@@ -84,10 +90,13 @@ def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
     return temp_line_chart
 
 
-def create_moisture_bar(df: pd.DataFrame) -> alt.Chart:
+def create_moisture_bar(df: pd.DataFrame, plant_ids: list[int]) -> alt.Chart:
     """Creates bar chart of plants against their most recently recorded temperature."""
 
     df['at'] = pd.to_datetime(df['at'])
+
+    if len(plant_ids) > 0:
+        df = df[df["plant_id"].isin(plant_ids)]
 
     recent_df = df.loc[df.groupby('plant_id')['at'].idxmax()]
 

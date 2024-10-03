@@ -1,4 +1,4 @@
-"""Script containing the functions to create altair visualisations for streamlit dashboard."""
+"""Script containing the functions to create altair visualisations for a streamlit dashboard."""
 
 from os import environ as ENV
 
@@ -73,11 +73,13 @@ def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
     two_hours_ago = df['at'].max() - pd.Timedelta(hours=2)
 
     df_filtered = df[df['at'] >= two_hours_ago]
+    df_filtered = df_filtered[df_filtered['temperature'] < 45]
 
-    title = alt.TitleParams('Plant temperature over time', anchor='middle')
+    title = alt.TitleParams(
+        'Plant temperature fluctuation over time', anchor='middle')
     temp_line_chart = alt.Chart(df_filtered, title=title).mark_line().encode(
         x='at:T',
-        y='temperature:Q',
+        y=alt.Y('temperature:Q'),
         color='plant_id:N'
     )
 
@@ -85,7 +87,7 @@ def create_temperature_line(df: pd.DataFrame) -> alt.Chart:
 
 
 def create_moisture_bar(df: pd.DataFrame) -> alt.Chart:
-    """Creates bar chart of plants against their most recently recorded temperature."""
+    """Creates bar chart of plants against their most recently recorded moisture."""
 
     df['at'] = pd.to_datetime(df['at'])
 

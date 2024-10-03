@@ -1,13 +1,9 @@
 boto3
 python-dotenv
 pymssql
-<<<<<<< HEAD
-asyncio
-aiohttp
-=======
 pandas
 grequests
 requests
 pytest
 pylint
->>>>>>> c5178a18f6190646b4a0cd6ed19d29809b2aeaed
+

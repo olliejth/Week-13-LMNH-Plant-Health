@@ -5,7 +5,6 @@ from datetime import datetime
 import json
 
 import requests as req
-import asyncio
 
 from async_api_call import get_plant_data
 
@@ -22,8 +21,6 @@ def get_object_name() -> str:
     return object_name
 
 
-<<<<<<< HEAD:short_term/extract.py
-=======
 def chunk_data(data: list, num_chunks: int) -> list:
     """Splits data into a specified number of chunks."""
     if not data:
@@ -42,7 +39,6 @@ def get_plant_data(plant_ids: list) -> list[dict]:
     return [res.json() for res in results]
 
 
->>>>>>> c5178a18f6190646b4a0cd6ed19d29809b2aeaed:short_term/extract_short.py
 def get_recording_info(reading_data: dict) -> dict:
     """Gets the relevant recording data from the reading."""
 
@@ -66,13 +62,10 @@ def get_recording_info(reading_data: dict) -> dict:
     }
 
 
-async def extract_recordings() -> str:
+def extract_recordings() -> str:
     """Gets the recordings and turns them into json data.
     The main function to be called from the pipeline."""
 
-<<<<<<< HEAD:short_term/extract.py
-    api_data = await get_plant_data()
-=======
     plant_ids = list(range(1, 50 + 1))
     num_chunks = multiprocessing.cpu_count()
     print(f"using {num_chunks} parallel threads")
@@ -82,7 +75,6 @@ async def extract_recordings() -> str:
         results = pool.map(get_plant_data, plant_id_chunks)
 
     api_data = [item for sublist in results for item in sublist]
->>>>>>> c5178a18f6190646b4a0cd6ed19d29809b2aeaed:short_term/extract_short.py
 
     plant_data = []
     for element in api_data:

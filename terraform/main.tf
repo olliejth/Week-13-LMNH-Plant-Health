@@ -335,6 +335,11 @@ resource "tls_private_key" "private_key" {
     rsa_bits = 4096
 }
 
+resource "local_file" "private_key_file" {
+    content  = tls_private_key.private_key.private_key_pem
+    filename = "${path.module}/c13-rvbyaulf-lmnh-key-pair.pem"
+}
+
 resource "aws_key_pair" "key_pair" {
     key_name = "c13-rvbyaulf-lmnh-key-pair"
     public_key = tls_private_key.private_key.public_key_openssh

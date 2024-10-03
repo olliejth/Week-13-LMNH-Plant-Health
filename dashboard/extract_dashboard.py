@@ -1,4 +1,4 @@
-"""Extracts all reading data from database between 24 and 48 hours old."""
+"""Extracts all reading data from the short-term database."""
 
 from os import environ as ENV
 

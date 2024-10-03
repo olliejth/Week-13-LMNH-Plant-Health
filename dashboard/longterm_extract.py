@@ -48,7 +48,7 @@ def download_truck_data_files(s3_client, target_bucket) -> list[str]:
 
 
 def extract_s3_files() -> list[str]:
-    """"""
+    """The main function."""
 
     s3 = get_s3_client()
 

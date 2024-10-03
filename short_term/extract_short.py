@@ -52,8 +52,8 @@ def get_recording_info(reading_data: dict) -> dict:
     }
 
 
-def extract_recordings() -> str:
-    """Gets the recordings and turns them into json data.
+def extract_recordings() -> list[dict]:
+    """Gets the recordings and turns them into list of dicts.
     The main function to be called from the pipeline."""
 
     plant_ids = list(range(1, 50 + 1))
@@ -70,11 +70,7 @@ def extract_recordings() -> str:
         if recording_info is not None:
             plant_data.append(recording_info)
 
-    object_name = get_object_name()
-    with open(object_name, "w", encoding='UTF-8') as f:
-        json.dump(plant_data, f, indent=6)
-
-    return object_name
+    return plant_data
 
 
 if __name__ == '__main__':

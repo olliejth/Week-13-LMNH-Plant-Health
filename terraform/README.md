@@ -59,3 +59,8 @@ This will create the necessary resources for the ETL pipeline, including:
 - EventBridge schedules to trigger the ETL pipelines
 - IAM roles and policies for Lambda, ECS, and EventBridge
 - EC2 to host the dashboard
+
+6. To destroy all provisioned services using terraform:
+```bash
+terraform destroy
+```

@@ -13,5 +13,6 @@ def get_plant_data(plant_ids: list[int]):
 
     responses = grequests.map(async_list)
 
-    return [response.json()
+    return [response.json() if response is not None
+            else {"error": True}
             for response in responses]

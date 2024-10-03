@@ -58,9 +58,9 @@ def upload_readings(tuples: list[tuple]):
         value_placeholders.append("( %s, %s, %s, %s, %s, %s )")
         values.extend(reading)  # Flatten the reading tuple
 
-        full_query = insert_query + ", ".join(value_placeholders) + ";"
+    full_query = insert_query + ", ".join(value_placeholders) + ";"
 
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(full_query, values)
-            conn.commit()
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(full_query, values)
+        conn.commit()

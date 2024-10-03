@@ -3,7 +3,7 @@ source .env
 EC2_USER="ec2-user"
 DASHBOARD_DIR="~/dashboard"
 
-scp -i "$KEY_PATH" extract_dashboard.py load_dashboard.py transform_dashboard.py requirements.txt .env $EC2_USER@$EC2_HOST:$DASHBOARD_DIR/
+scp -i "$KEY_PATH" extract_dashboard.py load_dashboard.py transform_dashboard.py requirements.txt longterm_extract.py longterm_transform.py .env $EC2_USER@$EC2_HOST:$DASHBOARD_DIR/
 
 ssh -i "$KEY_PATH" $EC2_USER@$EC2_HOST << EOF
     cd $DASHBOARD_DIR

@@ -1,5 +1,9 @@
-requests
 boto3
 python-dotenv
 pymssql
 pandas
+grequests
+requests
+pytest
+pylint
+

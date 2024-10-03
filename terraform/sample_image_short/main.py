@@ -1,4 +1,7 @@
+# pylint: disable:R0801
+
 """Sample script to run on lambda while ETL pipelines are developed"""
+
 import json
 from os import environ as ENV
 from datetime import datetime

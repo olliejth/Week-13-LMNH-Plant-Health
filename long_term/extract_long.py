@@ -27,14 +27,14 @@ def extract_readings():
     """Extracts all readings from the 'reading' table and returns a pandas DataFrame."""
 
     with get_db_connection() as connection:
-        schema_name = ENV['SCHEMA_NAME']
 
         query = f'''
-        SELECT plant_id, at, last_watered, soil_moisture, temperature FROM {schema_name}.reading
+        SELECT plant_id, at, last_watered, soil_moisture, temperature FROM {ENV['SCHEMA_NAME']}.reading
         WHERE at BETWEEN DATEADD(hour, -48, SYSDATETIME()) AND DATEADD(hour, -24, SYSDATETIME())
         '''
 
         df = pd.read_sql(query, connection)
+        print(f'Extracted {len(df.index)} rows')
         return df
 
 

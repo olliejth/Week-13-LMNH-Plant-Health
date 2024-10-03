@@ -25,7 +25,7 @@ def create_summary(df: pd.DataFrame, round_dp: int = 2) -> pd.DataFrame:
     output_data = df.groupby(["plant_id"])["temperature"].min(
     ).reset_index().rename(columns={"temperature": "min_T"})
 
-    output_data["plant_id"] = df["plant_id"].astype(int)
+    output_data["plant_id"] = df["plant_id"].unique().astype(int)
 
     output_data["max_T"] = df.groupby(
         ["plant_id"])["temperature"].max().reset_index()["temperature"]

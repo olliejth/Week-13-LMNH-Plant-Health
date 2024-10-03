@@ -40,10 +40,12 @@ def create_botanist_pie(df: pd.DataFrame) -> alt.Chart:
     grouped_df["botanist_name"] = grouped_df["botanist_id"].map(
         botanist_mapping)
 
-    title = alt.TitleParams('Botanist plant count', anchor='middle')
+    title = alt.TitleParams('Recordings taken per botanist', anchor='middle')
     botanist_pie_chart = alt.Chart(grouped_df, title=title).mark_arc().encode(
         theta="plant_id:Q",
-        color="botanist_name:N"
+        color="botanist_name:N",
+        tooltip=[alt.Tooltip(field="botanist_name", title="Botanist Name"),
+                 alt.Tooltip(field="plant_id", title="Readings")]
     )
 
     return botanist_pie_chart
@@ -54,12 +56,18 @@ def create_temperature_bar(df: pd.DataFrame) -> alt.Chart:
 
     df['at'] = pd.to_datetime(df['at'])
 
+    df["high_temperature"] = df["temperature"] >= 50
+
     recent_df = df.loc[df.groupby('plant_id')['at'].idxmax()]
 
     title = alt.TitleParams('Plant temperature', anchor='middle')
     temp_bar_chart = alt.Chart(recent_df, title=title).mark_bar().encode(
         x='plant_id:N',
-        y='temperature:Q'
+        y='temperature:Q',
+        color=alt.Color('high_temperature',
+                        scale=alt.Scale(
+                            domain=[False, True],
+                            range=["#84c9ff", "red"]))
     )
 
     return temp_bar_chart
@@ -90,12 +98,18 @@ def create_moisture_bar(df: pd.DataFrame) -> alt.Chart:
 
     df['at'] = pd.to_datetime(df['at'])
 
+    df["low_moisture"] = df["soil_moisture"] <= 10
+
     recent_df = df.loc[df.groupby('plant_id')['at'].idxmax()]
 
     title = alt.TitleParams('Plant moisture', anchor='middle')
     moist_bar_chart = alt.Chart(recent_df, title=title).mark_bar().encode(
         x='plant_id:N',
-        y='soil_moisture:Q'
+        y='soil_moisture:Q',
+        color=alt.Color('low_moisture',
+                        scale=alt.Scale(
+                            domain=[False, True],
+                            range=["#84c9ff", "red"]))
     )
 
     return moist_bar_chart

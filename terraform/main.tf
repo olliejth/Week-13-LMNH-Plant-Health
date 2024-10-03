@@ -328,6 +328,8 @@ resource "aws_scheduler_schedule" "long_term_etl_schedule" {
     }
 }
 
+# =========================== LMNH Plant Dashboard ===========================
+
 resource "tls_private_key" "private_key" {
     algorithm = "RSA"
     rsa_bits = 4096
@@ -348,6 +350,28 @@ resource "aws_security_group" "ec2-sg" {
             protocol = "TCP"
             cidr_blocks = ["0.0.0.0/0"]
             description = "Allow ssh"
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        },
+        {
+            from_port   = 8501
+            to_port     = 8501
+            protocol    = "tcp"
+            cidr_blocks = ["0.0.0.0/0"]
+            description = "Allow streamlit"
+            ipv6_cidr_blocks = []
+            prefix_list_ids = []
+            security_groups = []
+            self = false
+        },
+        {
+            from_port   = 80
+            to_port     = 80
+            protocol    = "tcp"
+            cidr_blocks = ["0.0.0.0/0"]
+            description = "Allow connection"
             ipv6_cidr_blocks = []
             prefix_list_ids = []
             security_groups = []
@@ -381,6 +405,5 @@ resource "aws_instance" "pipeline_ec2" {
               #!/bin/bash
               sudo yum update -y
               sudo yum install -y python3
-              sudo yum install -y git
               EOF
 }

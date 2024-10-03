@@ -38,9 +38,19 @@ def get_ses_clent():
                   aws_secret_access_key=ENV["AWS_rvbyaulf_SECRET_KEY"])
 
 
-def send_email(ses_client: client, to_email: str, from_email: str):
-    """Sends a notification email to the recipient indicating
-    that the long-term pipeline has been carried out."""
+def send_email(ses_client, to_email: str, from_email: str, df: pd.DataFrame):
+    """Sends an HTML email to the recipient with the DataFrame content."""
+    html_table = df.to_html(index=False)
+
+    html_body = f"""
+    <html>
+    <body>
+        <h2>Archived Plant Readings</h2>
+        <p>Successfully uploaded the following .csv summary to the S3 bucket:</p>
+        {html_table}
+    </body>
+    </html>
+    """
     ses_client.send_email(
         Source=from_email,
         Destination={
@@ -48,11 +58,11 @@ def send_email(ses_client: client, to_email: str, from_email: str):
         },
         Message={
             'Subject': {
-                'Data': "Archived plant readings to S3."
+                'Data': "Archived Plant Readings to S3"
             },
             'Body': {
-                'Text': {
-                    'Data': "Successfully uploaded .csv summary to the S3 bucket."
+                'Html': {
+                    'Data': html_body
                 }
             }
         }
@@ -77,4 +87,4 @@ def load_recordings(df: pd.DataFrame) -> None:
     ses = get_ses_clent()
 
     upload_csv(file_name, s3)
-    send_email(ses, ENV['EMAIL_RECIPIENT'], ENV['EMAIL_SENDER'])
+    send_email(ses, ENV['EMAIL_RECIPIENT'], ENV['EMAIL_SENDER'], df)

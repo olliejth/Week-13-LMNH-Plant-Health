@@ -96,10 +96,15 @@ resource "aws_lambda_function" "lmnh_etl_short_term_lambda" {
             BUCKET_NAME = var.BUCKET_NAME
             AWS_rvbyaulf_KEY = var.AWS_ACCESS_KEY
             AWS_rvbyaulf_SECRET_KEY = var.AWS_SECRET_ACCESS_KEY
+            DB_HOST     = var.DB_HOST
+            DB_PORT     = var.DB_PORT
+            DB_NAME     = var.DB_NAME
+            DB_USER     = var.DB_USER
+            DB_PASSWORD = var.DB_PASSWORD
         }
     }
 
-    image_config { command = ["main.lambda_handler"] }
+    image_config { command = ["pipeline.lambda_handler"] }
 }
 
 data "aws_iam_policy_document" "eventbridge_schedule_trust_policy" {

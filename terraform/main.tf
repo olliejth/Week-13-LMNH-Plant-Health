@@ -11,12 +11,12 @@ data "aws_subnet" "c13-public-subnet2" { id = var.SUBNET_ID2 }
 data "aws_subnet" "c13-public-subnet3" { id = var.SUBNET_ID3 }
 
 data "aws_ecr_image" "lmnh_plants_etl_short_term" {
-    repository_name = "c13-rvbyaulf-lmnh-plants-short-term"
+    repository_name = var.ECR_SHORT_TERM_REPO_NAME
     image_tag       = "latest"
 }
 
 data "aws_ecr_image" "lmnh_plants_etl_long_term" {
-    repository_name = "c13-rvbyaulf-lmnh-plants-long-term"
+    repository_name = var.ECR_LONG_TERM_REPO_NAME
     image_tag       = "latest"
 }
 

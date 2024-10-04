@@ -19,3 +19,6 @@ variable "DB_PASSWORD" {type = string}
 variable "DB_USER" {type = string}
 variable "DB_NAME" {type = string}
 variable "SCHEMA_NAME" {type = string}
+
+variable "ECR_SHORT_TERM_REPO_NAME" {type = string}
+variable "ECR_LONG_TERM_REPO_NAME" {type = string}

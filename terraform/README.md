@@ -7,8 +7,8 @@ Before you start, ensure that you have the following configured on your machine:
 - **Terraform** installed
 
 And the following services provisioned:
-- **ECR repository** for short term etl, name this: "c13-rvbyaulf-lmnh-plants-short-term" or change line 14 in main.tf accordingly.
-- **ECR repository** for long term etl, name this: "c13-rvbyaulf-lmnh-plants-long-term" or change line 19 in main.tf accordingly.
+- **ECR repository** for short term etl.
+- **ECR repository** for long term etl.
 - **S3 bucket** to store long term plant information.
 - **RDS (Microsoft SQL Server)** to store the short term plant information.
 
@@ -36,6 +36,9 @@ DB_NAME               = "your-RDS-name"
 DB_USER               = "your-RDS-user"
 DB_PASSWORD           = "your-RDS-password"
 DB_SCHEMA_NAME        = "your-RDS-schema"
+
+ECR_SHORT_TERM_REPO_NAME  =  "name-of-repo-to-store-short-term-etl-image"
+ECR_LONG_TERM_REPO_NAME   =  "name-of-repo-to-store-long-term-etl-image"
 ```
 
 3. Initialize Terraform:

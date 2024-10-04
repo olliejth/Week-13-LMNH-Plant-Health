@@ -43,12 +43,8 @@ jobs:
 
     - name: Run pytest
       run: |
-        pytest
-      continue-on-error: false
-
-    - name: Check coverage
-      run: |
         pytest --cov
+      continue-on-error: false
 
     - name: Lint
       run: |

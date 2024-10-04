@@ -14,7 +14,7 @@ def concat_csvs(files: list[str]) -> pd.DataFrame:
         df = pd.read_csv(file)
         df_list.append(df)
 
-    return pd.concat(df_list)
+    return pd.concat(df_list, ignore_index=True)
 
 
 def get_times_watered(df: pd.DataFrame) -> alt.Chart:
@@ -27,10 +27,9 @@ def get_times_watered(df: pd.DataFrame) -> alt.Chart:
 
     title = alt.TitleParams(
         'Average daily water count per plant', anchor='middle')
-    bar_chart = alt.Chart(watered_df, title=title).mark_bar().encode(
+    bar_chart = alt.Chart(watered_df, title=title).mark_bar(color='#a05799').encode(
         x="plant_id:N",
         y="water_count:Q").configure_bar(
-        color='red'
     )
 
     return bar_chart
@@ -43,10 +42,9 @@ def get_max_temp_per_plant(df: pd.DataFrame) -> alt.Chart:
 
     title = alt.TitleParams(
         'Max T experienced by each plant', anchor='middle')
-    max_temp_bar = alt.Chart(max_temp_df, title=title).mark_bar().encode(
+    max_temp_bar = alt.Chart(max_temp_df, title=title).mark_bar(color='#a05799').encode(
         x="plant_id:N",
-        y="max_T:Q").configure_bar(
-        color='red'
+        y="max_T:Q"
     )
 
     return max_temp_bar
@@ -59,10 +57,9 @@ def get_min_moisture_per_plant(df: pd.DataFrame) -> alt.Chart:
 
     title = alt.TitleParams(
         'Min M experienced by each plant', anchor='middle')
-    min_moist_bar = alt.Chart(min_moist_df, title=title).mark_bar().encode(
+    min_moist_bar = alt.Chart(min_moist_df, title=title).mark_bar(color='#a05799').encode(
         x="plant_id:N",
-        y="min_M:Q").configure_bar(
-        color='red'
+        y="min_M:Q"
     )
 
     return min_moist_bar

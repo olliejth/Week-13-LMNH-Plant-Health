@@ -47,3 +47,6 @@ This project is focused on creating an **automated data analysis pipeline** to a
 #### 🗺️ Database Schema
 ![Database Schema](schema.png)
 
+## Infrastructure Setup
+
+Please follow the instructions laid out in `terraform/README.md`

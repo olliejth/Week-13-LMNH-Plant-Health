@@ -1,4 +1,4 @@
-# 🚀 Short Term ETL Pipeline
+# 🚀 Long Term ETL Pipeline
 
 This folder contains scripts for **extracting data from the short-term RDS**, and then **uploading them to a S3 bucket**. This way, **long-term data** can be stored efficiently, should it ever be needed.
 
@@ -42,8 +42,9 @@ IMAGE_LONG_TERM_NAME_PIPELINE=XXXXX
 - `transform_long.py`: Prepares the extracted data in the format of a summary.
 - `load_long.py`: Uploads the summary data as a `csv` file to the S3 bucket.
 - `pipeline_long.py`: Runs all of the above files together.
-- `test_extract_long`, `test_transform_long`, `test_load_long`: Test files for the corresponding scripts.
+- `test_extract_long.py`, `test_transform_long.py`, `test_load_long.py`: Test files for the corresponding scripts.
 - `connect.sh`: Connects to the short term database.
-- `docker`...
-- `initialise_db.sh`: Initialises the short term database (delete it?)
+- `dockerise.sh`: Dockerises and uploads the image to the ECR.
+- `Dockerfile`: Dockerisation instructions.
+
 

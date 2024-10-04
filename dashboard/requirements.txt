@@ -4,3 +4,5 @@ altair
 pymssql
 python-dotenv
 streamlit
+pytest
+pylint

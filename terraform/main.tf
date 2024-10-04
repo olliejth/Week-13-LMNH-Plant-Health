@@ -11,12 +11,12 @@ data "aws_subnet" "c13-public-subnet2" { id = var.SUBNET_ID2 }
 data "aws_subnet" "c13-public-subnet3" { id = var.SUBNET_ID3 }
 
 data "aws_ecr_image" "lmnh_plants_etl_short_term" {
-    repository_name = "c13-rvbyaulf-lmnh-plants-short-term"
+    repository_name = var.ECR_SHORT_TERM_REPO_NAME
     image_tag       = "latest"
 }
 
 data "aws_ecr_image" "lmnh_plants_etl_long_term" {
-    repository_name = "c13-rvbyaulf-lmnh-plants-long-term"
+    repository_name = var.ECR_LONG_TERM_REPO_NAME
     image_tag       = "latest"
 }
 
@@ -399,7 +399,7 @@ resource "aws_security_group" "ec2-sg" {
 }
 
 resource "aws_instance" "pipeline_ec2" {
-    instance_type = "t3.nano"
+    instance_type = "t3.micro"
     tags = {Name: "c13-rvbyaulf-lmnh-plant-dashboard"}
     security_groups = [aws_security_group.ec2-sg.id]
     subnet_id = data.aws_subnet.c13-public-subnet.id

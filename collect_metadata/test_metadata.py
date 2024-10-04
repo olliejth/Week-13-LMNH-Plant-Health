@@ -37,7 +37,7 @@ class TestExtract:
         assert data["email"] == "john@example.com"
         assert data["phone"] == "12345678"
 
-    @patch("extract.get_timezone_from_region")
+    @patch("extract_metadata.get_timezone_from_region")
     def test_extract_location_data(self, fake_tz):
 
         fake_tz.return_value = "GMT"

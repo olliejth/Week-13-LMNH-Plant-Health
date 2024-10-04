@@ -1,7 +1,7 @@
 """Transforms the json data into csvs."""
 
 import csv
-from extract import extract_api_data
+from extract_metadata import extract_api_data
 
 
 def turn_into_csv_input(data: list[dict]) -> list[list]:
@@ -18,7 +18,8 @@ def turn_into_csv_input(data: list[dict]) -> list[list]:
     return rows
 
 
-if __name__ == "__main__":
+def create_csvs() -> None:
+    """Creates the csv files for the metadata."""
 
     api_data = extract_api_data()
 

@@ -1,8 +1,8 @@
 # pylint: skip-file
 from unittest.mock import patch
 
-from extract import extract_botanist_data, extract_location_data
-from transform import turn_into_csv_input
+from extract_metadata import extract_botanist_data, extract_location_data
+from transform_metadata import turn_into_csv_input
 
 
 class TestExtract:

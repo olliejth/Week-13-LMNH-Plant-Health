@@ -2,3 +2,4 @@ requests
 boto3
 pytest
 pylint
+python-dotenv

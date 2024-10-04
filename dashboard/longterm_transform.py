@@ -14,7 +14,7 @@ def concat_csvs(files: list[str]) -> pd.DataFrame:
         df = pd.read_csv(file)
         df_list.append(df)
 
-    return pd.concat(df_list)
+    return pd.concat(df_list, ignore_index=True)
 
 
 def get_times_watered(df: pd.DataFrame) -> alt.Chart:
@@ -36,6 +36,7 @@ def get_times_watered(df: pd.DataFrame) -> alt.Chart:
 
 
 def get_max_temp_per_plant(df: pd.DataFrame) -> alt.Chart:
+    """Returns a chart of max temperature for every plant."""
 
     max_temp_df = df.groupby("plant_id").max().reset_index()
 
@@ -50,6 +51,7 @@ def get_max_temp_per_plant(df: pd.DataFrame) -> alt.Chart:
 
 
 def get_min_moisture_per_plant(df: pd.DataFrame) -> alt.Chart:
+    """Returns a chart of min moisture for every plant."""
 
     min_moist_df = df.groupby("plant_id").min().reset_index()
 

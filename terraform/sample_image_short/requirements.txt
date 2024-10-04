@@ -1,4 +1,0 @@
-pylint
-pytest
-python-dotenv
-boto3

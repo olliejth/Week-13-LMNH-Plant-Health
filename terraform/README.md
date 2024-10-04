@@ -4,7 +4,8 @@ This folder contains the Terraform scripts to provision the necessary cloud infr
 ## 🛠️ Prerequisites
 Before you start, ensure that you have the following configured on your machine:
 - **AWS CLI** to interact with AWS services
-- **Terraform** installed
+- **Terraform** installed.
+- **Docker** installed for containerisation.
 
 And the following services provisioned:
 - **ECR repository** for short term etl.

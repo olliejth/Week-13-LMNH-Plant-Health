@@ -56,7 +56,7 @@ def create_temperature_bar(df: pd.DataFrame) -> alt.Chart:
 
     df['at'] = pd.to_datetime(df['at'])
 
-    df["high_temperature"] = df["temperature"] >= 50
+    df["high_temperature"] = df["temperature"] >= 40
 
     recent_df = df.loc[df.groupby('plant_id')['at'].idxmax()]
 
@@ -98,7 +98,7 @@ def create_moisture_bar(df: pd.DataFrame) -> alt.Chart:
 
     df['at'] = pd.to_datetime(df['at'])
 
-    df["low_moisture"] = df["soil_moisture"] <= 10
+    df["low_moisture"] = df["soil_moisture"] <= 50
 
     recent_df = df.loc[df.groupby('plant_id')['at'].idxmax()]
 

@@ -1,4 +1,4 @@
-# 🚀 Short Term ETL Pipeline
+# 🚀 Dashboard
 
 This folder contains scripts to create a **dashboard** that visualises the **short term data**.
 
@@ -41,7 +41,11 @@ ec2-18-171-163-71.eu-west-2.compute.amazonaws.com:8501
 ## 📄 Files Explained
 - `extract_dashboard.py`: Extracts all of the short term data to be visualised.
 - `transform_dashboard.py`: Creates the charts using `altair`.
-- `load_dashboard.py`: Creates the `streamlit` dashboard and uploads all of the charts to it.
+- `longterm_extract`: Extracts data from the long-term database (S3) to visualise.
+- `longterm_transform`: Creates the long-term charts using `altair`.
+- `load_dashboard.py`: Creates the `streamlit` dashboards and uploads all of the charts to them.
+- `upload_dashboard.sh`: Uploads the dashboard to the EC2 instance.
 - `connect.sh`: Connects to the short term database.
 - `run_dashboard_container`: Once the dashboard is built as a Docker image, this bash script runs it locally.
+- `Dockerfile`: Dockerisation instructions.
 

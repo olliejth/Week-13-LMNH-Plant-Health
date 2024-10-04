@@ -44,7 +44,7 @@ IMAGE_LONG_TERM_NAME_PIPELINE=XXXXX
 - `pipeline_long.py`: Runs all of the above files together.
 - `test_extract_long.py`, `test_transform_long.py`, `test_load_long.py`: Test files for the corresponding scripts.
 - `connect.sh`: Connects to the short term database.
-- The bash files starting with `docker_` are used to build a docker image, and upload it to ECR. The script `dockerise.sh` is used to run them all in order.
+- `dockerise.sh`: Dockerises and uploads the image to the ECR.
 - `Dockerfile`: Dockerisation instructions.
 
 

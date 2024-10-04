@@ -42,5 +42,5 @@ BUCKET_NAME=XXXXXX
 - `schema.sql`: Sets up the database with initial tables.
 - `create_db.sh`: Uses `schema.sql` to set up the cloud RDS.
 - `connect.sh`: Connects to the short term database.
-- The bash files starting with `docker_` are used to build a docker image, and upload it to ECR. The script `dockerise.sh` is used to run them all in order.
+- `dockerise.sh`: Dockerises and uploads the image to the ECR.
 - `Dockerfile`: Dockerisation instructions.

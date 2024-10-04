@@ -15,19 +15,19 @@ def handle_response(response):
         try:
             if response.status_code == 200:
                 return response.json()
-            else:
-                return {
-                    "error": True,
-                    "status_code": response.status_code,
-                    "response": response.text
-                }
-        except json.JSONDecodeError as e:
+
+            return {
+                "error": True,
+                "status_code": response.status_code,
+                "response": response.text
+            }
+        except json.JSONDecodeError:
             return {
                 "error": True,
                 "message": "Invalid JSON response",
                 "response": response.text
             }
-        except Exception as e:
+        except Exception as e:  # pylint: disable=W0718
             return {
                 "error": True,
                 "message": str(e),
@@ -57,7 +57,7 @@ def get_plant_data(plant_ids: list[int]):
 
 
 if __name__ == '__main__':
-    results = get_plant_data(list(range(1, 51)))
+    api_results = get_plant_data(list(range(1, 51)))
 
-    print(len(results))
-    print(len([x for x in results if "error" not in x]))
+    print(len(api_results))
+    print(len([x for x in api_results if "error" not in x]))

@@ -48,7 +48,7 @@ jobs:
 
     - name: Check coverage
       run: |
-        pytest -cov
+        pytest --cov
 
     - name: Lint
       run: |

@@ -16,9 +16,11 @@ And the following services provisioned:
 ## 📂 Setup
 Follow these steps to deploy the infrastructure:
 
-1. Clone the repository to your local machine.
+1. Clone the repository to your local machine if you haven't already.
 
-2. Create a `terraform.tfvars` file in this directory with your AWS credentials and infrastructure details:
+2. Perform the short and long term ETL setup by reading `../short_term/README.md` and `../long_term/README.md`
+
+3. Create a `terraform.tfvars` file in this directory with your AWS credentials and infrastructure details:
 ```bash
 AWS_ACCESS_KEY        = "your-aws-access-key"
 AWS_SECRET_ACCESS_KEY = "your-aws-secret-key"
@@ -42,29 +44,38 @@ ECR_SHORT_TERM_REPO_NAME  =  "name-of-repo-to-store-short-term-etl-image"
 ECR_LONG_TERM_REPO_NAME   =  "name-of-repo-to-store-long-term-etl-image"
 ```
 
-3. Initialize Terraform:
+4. Initialize Terraform:
 ```bash
 terraform init
 ```
 
-4. Review the Terraform plan to ensure everything is set up correctly:
+5. Review the Terraform plan to ensure everything is set up correctly:
 ```bash
 terraform plan
 ```
 
-5. Apply the Terraform configuration to provision the infrastructure:
+6. Apply the Terraform configuration to provision the infrastructure:
 ```bash
 terraform apply
 ```
 
-This will create the necessary resources for the ETL pipeline, including:
-- Lambda for short-term ETL
-- ECS task definition for the long-term ETL
-- EventBridge schedules to trigger the ETL pipelines
-- IAM roles and policies for Lambda, ECS, and EventBridge
-- EC2 to host the dashboard
+7. Restrict access to the generated pemkey
+```bash
+chmod 400 c13-rvbyaulf-lmnh-key-pair.pem
+```
 
-6. To destroy all provisioned services using terraform:
+8. Follow the instructions in `../dashboard/README.md` to setup and run the dashboard.
+
+    This will create the necessary resources for the ETL pipeline, including:
+    - Pushing docker images to ECR repos (`../short_term/README.md`, `../long_term/README.md`)
+    - Lambda for short-term ETL
+    - ECS task definition for the long-term ETL
+    - EventBridge schedules to trigger the ETL pipelines
+    - IAM roles and policies for Lambda, ECS, and EventBridge
+    - EC2 to host the dashboard
+    - Running the dashboard (`../dashboard/README.md`)
+
+7. To destroy all provisioned services using terraform:
 ```bash
 terraform destroy
 ```

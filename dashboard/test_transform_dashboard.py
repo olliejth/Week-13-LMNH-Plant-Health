@@ -28,7 +28,7 @@ def test_create_botanist_pie():
     result_chart = create_botanist_pie(df)
 
     assert isinstance(result_chart, alt.Chart)
-    assert result_chart.mark.type == 'arc'
+    assert result_chart.mark == 'arc'
 
 
 def test_create_temperature_bar():
@@ -37,7 +37,7 @@ def test_create_temperature_bar():
     result_chart = create_temperature_bar(df)
 
     assert isinstance(result_chart, alt.Chart)
-    assert result_chart.mark.type == 'bar'
+    assert result_chart.mark == 'bar'
 
 
 def test_create_temperature_line():
@@ -46,7 +46,7 @@ def test_create_temperature_line():
     result_chart = create_temperature_line(df)
 
     assert isinstance(result_chart, alt.Chart)
-    assert result_chart.mark.type == 'line'
+    assert result_chart.mark == 'line'
 
 
 def test_create_moisture_bar():
@@ -55,4 +55,4 @@ def test_create_moisture_bar():
     result_chart = create_moisture_bar(df)
 
     assert isinstance(result_chart, alt.Chart)
-    assert result_chart.mark.type == 'bar'
+    assert result_chart.mark == 'bar'

@@ -1,4 +1,4 @@
-"""Given a file name uploads local json file to RDS."""
+"""Given a file name uploads local json file to RDS."""  # pylint: disable=R0801
 
 from json import loads
 from datetime import datetime

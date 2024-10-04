@@ -1,4 +1,4 @@
-# 🚀 Short Term ETL Pipeline
+# 🚀 Long Term ETL Pipeline
 
 This folder contains scripts for **extracting data from the short-term RDS**, and then **uploading them to a S3 bucket**. This way, **long-term data** can be stored efficiently, should it ever be needed.
 

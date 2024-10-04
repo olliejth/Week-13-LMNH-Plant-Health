@@ -1,4 +1,4 @@
-# 🚀 Short Term ETL Pipeline
+# 🚀 Dashboard
 
 This folder contains scripts to create a **dashboard** that visualises the **short term data**.
 

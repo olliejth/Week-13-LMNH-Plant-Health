@@ -42,8 +42,9 @@ IMAGE_LONG_TERM_NAME_PIPELINE=XXXXX
 - `transform_long.py`: Prepares the extracted data in the format of a summary.
 - `load_long.py`: Uploads the summary data as a `csv` file to the S3 bucket.
 - `pipeline_long.py`: Runs all of the above files together.
-- `test_extract_long`, `test_transform_long`, `test_load_long`: Test files for the corresponding scripts.
+- `test_extract_long.py`, `test_transform_long.py`, `test_load_long.py`: Test files for the corresponding scripts.
 - `connect.sh`: Connects to the short term database.
-- `docker`...
-- `initialise_db.sh`: Initialises the short term database (delete it?)
+- The bash files starting with `docker_` are used to build a docker image, and upload it to ECR. The script `dockerise.sh` is used to run them all in order.
+- `Dockerfile`: Dockerisation instructions.
+
 

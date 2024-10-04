@@ -16,7 +16,7 @@ And the following services provisioned:
 ## 📂 Setup
 Follow these steps to deploy the infrastructure:
 
-1. Clone the repository to your local machine.
+1. Clone the repository to your local machine if you haven't already.
 
 2. Create a `terraform.tfvars` file in this directory with your AWS credentials and infrastructure details:
 ```bash

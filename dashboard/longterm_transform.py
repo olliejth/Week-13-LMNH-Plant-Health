@@ -53,7 +53,7 @@ def get_max_temp_per_plant(df: pd.DataFrame) -> alt.Chart:
 
 
 def get_min_moisture_per_plant(df: pd.DataFrame) -> alt.Chart:
-    """Creates a chart of min moisture for every plant."""
+    """Returns a chart of min moisture for every plant."""
 
     min_moist_df = df.groupby("plant_id").min().reset_index()
 

@@ -32,7 +32,7 @@ if __name__ == "__main__":
     st.title(":herb: Plant Monitoring Dashboard :herb:")
 
     st.header(
-        f":seedling: :green[Daily analytics ({date.today()})] :seedling:")
+        f":seedling: Daily analytics ({date.today()}) :seedling:")
 
     st.altair_chart(botanist_plants_pie, use_container_width=True)
     st.altair_chart(temp_bar_chart, use_container_width=True)
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     # LONG TERM VISUALISATIONS:
 
-    st.header(":seedling: :green[Long-term analytics] :seedling:")
+    st.header(":seedling: Long-term analytics :seedling:")
 
     longterm_df = concat_csvs(extract_s3_files())
 

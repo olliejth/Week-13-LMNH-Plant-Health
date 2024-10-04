@@ -1,9 +1,10 @@
 # pylint: skip-file
-import requests as req
-
 from unittest.mock import patch
+
 from extract import extract_botanist_data, extract_location_data
 from transform import turn_into_csv_input
+
+import requests as req
 
 
 class TestExtract:
@@ -57,23 +58,47 @@ class TestExtract:
         assert data["timezone"] == "GMT"
 
 
-# class TestTransform:
+class TestTransform:
 
-#     def test_turn_into_csv_input_correct_output_type(self):
+    example_data = [{
+        "heading1": 1,
+        "heading2": 2,
+        "heading3": 3,
+        "heading4": 4
+    },
+        {
+        "heading1": 5,
+        "heading2": 6,
+        "heading3": 7,
+        "heading4": 8
+    }]
 
-#         test_dict_list = [{
-#             "heading1": 1,
-#             "heading2": 2,
-#             "heading3": 3,
-#             "heading4": 4
-#         },
-#             {
-#             "heading1": 5,
-#             "heading2": 6,
-#             "heading3": 7,
-#             "heading4": 8
-#         }]
+    def test_turn_into_csv_input_correct_output_type(self):
 
-#         output = turn_into_csv_input(test_dict_list)
+        input_dict_list = TestTransform.example_data
 
-#         assert isinstance(output, list)
+        output = turn_into_csv_input(input_dict_list)
+
+        assert isinstance(output, list)
+
+    def test_turn_into_csv_input_first_index_is_keys(self):
+
+        input_dict_list = TestTransform.example_data
+
+        keys = [input_dict_list[0].keys()]
+
+        output = turn_into_csv_input(input_dict_list)
+
+        assert output[0] == keys
+
+    def test_turn_info_into_csv_returns_correct_length_list(self):
+
+        input_dict_list = TestTransform.example_data
+
+        input_len = len(input_dict_list)
+
+        output = turn_into_csv_input(input_dict_list)
+
+        output_len = len(output)
+
+        assert output_len == input_len + 1

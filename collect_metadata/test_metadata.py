@@ -1,6 +1,8 @@
 # pylint: skip-file
 from unittest.mock import patch
+
 from extract_metadata import extract_botanist_data, extract_location_data
+from transform_metadata import turn_into_csv_input
 
 
 class TestExtract:
@@ -52,3 +54,49 @@ class TestExtract:
         assert data["longitude"] == -118.03917
         assert data["town"] == "South Whittier"
         assert data["timezone"] == "GMT"
+
+
+class TestTransform:
+
+    example_data = [{
+        "heading1": 1,
+        "heading2": 2,
+        "heading3": 3,
+        "heading4": 4
+    },
+        {
+        "heading1": 5,
+        "heading2": 6,
+        "heading3": 7,
+        "heading4": 8
+    }]
+
+    def test_turn_into_csv_input_correct_output_type(self):
+
+        input_dict_list = TestTransform.example_data
+
+        output = turn_into_csv_input(input_dict_list)
+
+        assert isinstance(output, list)
+
+    def test_turn_into_csv_input_first_index_is_keys(self):
+
+        input_dict_list = TestTransform.example_data
+
+        keys = input_dict_list[0].keys()
+
+        output = turn_into_csv_input(input_dict_list)
+
+        assert output[0] == keys
+
+    def test_turn_info_into_csv_returns_correct_length_list(self):
+
+        input_dict_list = TestTransform.example_data
+
+        input_len = len(input_dict_list)
+
+        output = turn_into_csv_input(input_dict_list)
+
+        output_len = len(output)
+
+        assert output_len == input_len + 1

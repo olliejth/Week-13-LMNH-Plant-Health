@@ -85,7 +85,7 @@ class TestTransform:
 
         input_dict_list = TestTransform.example_data
 
-        keys = [item for item in input_dict_list[0].keys()]
+        keys = input_dict_list[0].keys()
 
         output = turn_into_csv_input(input_dict_list)
 

@@ -31,8 +31,8 @@ def test_get_botanist_mapping(mock_read_sql, mock_get_db_connection):
     expected = {1: 'John Doe', 2: 'Jane Smith'}
 
     mock_read_sql.assert_called_once_with(f'''
-        SELECT botanist_id, first_name, last_name FROM fake_schema.botanist', mock_conn)
-        ''')
+        SELECT botanist_id, first_name, last_name FROM fake_schema.botanist'
+        ''', mock_conn)
     assert result == expected
 
 
@@ -42,7 +42,8 @@ def test_get_botanist_mapping(mock_read_sql, mock_get_db_connection):
                            'DB_PASSWORD': 'fake_password',
                            'DB_NAME': 'fake_db',
                            'SCHEMA_NAME': 'fake_schema'})
-def test_create_botanist_pie():
+@patch('transform_dashboard.get_botanist_mapping')
+def test_create_botanist_pie(mock_get_botanist_mapping):
     df = pd.DataFrame(columns=['botanist_id', 'plant_id'])
 
     result_chart = create_botanist_pie(df)

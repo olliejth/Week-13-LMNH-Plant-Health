@@ -1,6 +1,6 @@
 # pylint: skip-file
 from unittest.mock import patch
-from extract import extract_botanist_data, extract_location_data
+from extract_metadata import extract_botanist_data, extract_location_data
 
 
 class TestExtract:
@@ -35,7 +35,7 @@ class TestExtract:
         assert data["email"] == "john@example.com"
         assert data["phone"] == "12345678"
 
-    @patch("extract.get_timezone_from_region")
+    @patch("extract_metadata.get_timezone_from_region")
     def test_extract_location_data(self, fake_tz):
 
         fake_tz.return_value = "GMT"

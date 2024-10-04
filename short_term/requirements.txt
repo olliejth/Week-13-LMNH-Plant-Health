@@ -6,4 +6,4 @@ grequests
 requests
 pytest
 pylint
-
+pytest--cov

@@ -46,6 +46,10 @@ jobs:
         pytest
       continue-on-error: false
 
+    - name: Check coverage
+      run: |
+        pytest -cov
+
     - name: Lint
       run: |
         find . -name "*.py" | xargs pylint --fail-under=8

@@ -6,8 +6,8 @@ from extract_dashboard import extract_readings
 from transform_dashboard import create_botanist_pie, create_temperature_bar
 from transform_dashboard import create_moisture_bar, create_temperature_line
 from longterm_extract import extract_s3_files
-from longterm_transform import concat_csvs, get_times_watered
-from longterm_transform import get_max_temp_per_plant, get_min_moisture_per_plant
+from longterm_transform import (concat_csvs, get_times_watered,
+                                get_max_temp_per_plant, get_min_moisture_per_plant)
 
 if __name__ == "__main__":
 

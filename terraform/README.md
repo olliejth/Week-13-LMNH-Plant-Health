@@ -10,7 +10,7 @@ Before you start, ensure that you have the following configured on your machine:
 And the following services provisioned:
 - **ECR repository** for short term etl.
 - **ECR repository** for long term etl.
-- **S3 bucket** to store long term plant information.
+- **S3 bucket** to store long term plant information. See the `collect_metadata` README.
 - **RDS (Microsoft SQL Server)** to store the short term plant information.
 
 ## 📂 Setup

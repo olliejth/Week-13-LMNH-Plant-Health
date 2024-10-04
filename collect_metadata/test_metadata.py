@@ -1,6 +1,9 @@
 # pylint: skip-file
+import requests as req
+
 from unittest.mock import patch
 from extract import extract_botanist_data, extract_location_data
+from transform import turn_into_csv_input
 
 
 class TestExtract:
@@ -52,3 +55,19 @@ class TestExtract:
         assert data["longitude"] == -118.03917
         assert data["town"] == "South Whittier"
         assert data["timezone"] == "GMT"
+
+
+class TestTransform:
+
+    def test_turn_into_csv_input_correct_output_type(self):
+
+        test_dict = {
+            "key1": 1,
+            "key2": 2,
+            "key3": 3,
+            "key4": 4
+        }
+
+        output = turn_into_csv_input(test_dict)
+
+        assert isinstance(output, list)

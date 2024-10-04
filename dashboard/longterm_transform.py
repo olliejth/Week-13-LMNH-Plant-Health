@@ -14,7 +14,7 @@ def concat_csvs(files: list[str]) -> pd.DataFrame:
         df = pd.read_csv(file)
         df_list.append(df)
 
-    return pd.concat(df_list)
+    return pd.concat(df_list, ignore_index=True)
 
 
 def get_times_watered(df: pd.DataFrame) -> alt.Chart:

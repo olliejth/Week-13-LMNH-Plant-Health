@@ -399,7 +399,7 @@ resource "aws_security_group" "ec2-sg" {
 }
 
 resource "aws_instance" "pipeline_ec2" {
-    instance_type = "t3.nano"
+    instance_type = "t3.micro"
     tags = {Name: "c13-rvbyaulf-lmnh-plant-dashboard"}
     security_groups = [aws_security_group.ec2-sg.id]
     subnet_id = data.aws_subnet.c13-public-subnet.id

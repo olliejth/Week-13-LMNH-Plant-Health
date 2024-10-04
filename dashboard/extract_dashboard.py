@@ -1,4 +1,4 @@
-"""Extracts all reading data from the short-term database."""
+"""Extracts all reading data from the short-term database."""  # pylint: disable=R0801
 
 from os import environ as ENV
 

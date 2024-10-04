@@ -1,0 +1,8 @@
+boto3
+python-dotenv
+pymssql
+pandas
+grequests
+pytest
+pylint
+pytest--cov

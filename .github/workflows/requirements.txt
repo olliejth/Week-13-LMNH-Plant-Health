@@ -1,8 +1,11 @@
+pylint
+pytest
 boto3
 python-dotenv
 pymssql
 pandas
 grequests
-pytest
-pylint
+requests
 pytest--cov
+altair
+streamlit

@@ -12,6 +12,7 @@ venv
 # Python things
 __pycache__
 .pytest_cache
+.coverage
 
 # Logs
 *.log

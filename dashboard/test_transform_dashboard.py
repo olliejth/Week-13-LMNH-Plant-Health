@@ -1,9 +1,9 @@
 # pylint: skip-file
 
+from unittest.mock import patch, MagicMock
+
 import pandas as pd
 import altair as alt
-from unittest.mock import patch, MagicMock
-import pytest
 
 from transform_dashboard import get_botanist_mapping, create_botanist_pie, create_temperature_bar, create_temperature_line, create_moisture_bar
 

@@ -4,8 +4,6 @@ from unittest.mock import patch
 from extract import extract_botanist_data, extract_location_data
 from transform import turn_into_csv_input
 
-import requests as req
-
 
 class TestExtract:
 
